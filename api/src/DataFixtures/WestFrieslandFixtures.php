@@ -32,6 +32,7 @@ class WestFrieslandFixtures extends Fixture
             return false;
         }
 
+        /*
         // Cemeteries
         // Streekweg in Hoogkarspel
         $id = Uuid::fromString('0a46ce57-b566-4af7-b2ac-60c0520efffc');
@@ -714,5 +715,6 @@ class WestFrieslandFixtures extends Fixture
 
 
         $manager->flush();
+        */
     }
 }
