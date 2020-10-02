@@ -7364,76 +7364,6 @@ definitions:
         type: \Grave
     required:
       - layer
-  Cemetery-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this resource'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      organization:
-        description: 'A wrc organization that manages this grave'
-        type: string
-        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
-        format: url
-      place:
-        description: 'A place for this cemetery'
-        type: string
-        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
-        format: url
-      dateCreated:
-        description: 'The moment this entity was created'
-        type: \Datetime
-      dateModified:
-        description: 'The moment this entity last Modified'
-        type: \Datetime
-      graves:
-        description: 'The graves on this cemetery'
-        type: \ArrayCollection
-    required:
-      - organization
-      - place
-  Cemetery-write:
-    properties:
-      organization:
-        description: 'A wrc organization that manages this grave'
-        type: string
-        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
-        format: url
-      place:
-        description: 'A place for this cemetery'
-        type: string
-        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
-        format: url
-      graves:
-        description: 'The graves on this cemetery'
-        type: \ArrayCollection
-    required:
-      - organization
-      - place
-  Cover-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this resource'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      dateCreated:
-        description: 'The moment this entity was created'
-        type: \Datetime
-      dateModified:
-        description: 'The moment this entity last Modified'
-        type: \Datetime
-      grave:
-        description: 'The grave on whichs this covers rests'
-        type: \Grave
-    required: []
-  Cover-write:
-    properties:
-      grave:
-        description: 'The grave on whichs this covers rests'
-        type: \Grave
-    required: []
   Grave-read:
     properties:
       id:
@@ -7544,6 +7474,129 @@ definitions:
       - accomodation
       - owner
       - capacity
+  Cemetery-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this resource'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      organization:
+        description: 'A wrc organization that manages this grave'
+        type: string
+        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
+        format: url
+      place:
+        description: 'A place for this cemetery'
+        type: string
+        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
+        format: url
+      dateCreated:
+        description: 'The moment this entity was created'
+        type: \Datetime
+      dateModified:
+        description: 'The moment this entity last Modified'
+        type: \Datetime
+      graves:
+        description: 'The graves on this cemetery'
+        type: \ArrayCollection
+    required:
+      - organization
+      - place
+  Cemetery-write:
+    properties:
+      organization:
+        description: 'A wrc organization that manages this grave'
+        type: string
+        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
+        format: url
+      place:
+        description: 'A place for this cemetery'
+        type: string
+        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
+        format: url
+      graves:
+        description: 'The graves on this cemetery'
+        type: \ArrayCollection
+    required:
+      - organization
+      - place
+  Cover-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this resource'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      dateCreated:
+        description: 'The moment this entity was created'
+        type: \Datetime
+      dateModified:
+        description: 'The moment this entity last Modified'
+        type: \Datetime
+      grave:
+        description: 'The grave on whichs this covers rests'
+        type: \Grave
+    required: []
+  Cover-write:
+    properties:
+      grave:
+        description: 'The grave on whichs this covers rests'
+        type: \Grave
+    required: []
+  ChangeLog-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this object'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      note:
+        description: 'A note conserning this log lin'
+        type: string
+        example: 'This log line is suspicius'
+        maxLength: 2555
+      action:
+        description: ''
+        type: string
+      objectId:
+        description: ''
+        type: string
+      objectClass:
+        description: ''
+        type: string
+      version:
+        description: ''
+        type: int
+      data:
+        description: ''
+        type: array
+      username:
+        description: ''
+        type: string
+      session:
+        description: 'The moment this request was created'
+        type: string
+        maxLength: 255
+      dateCreated:
+        description: 'The moment this request was created'
+        type: string
+        format: date-time
+        example: '2020-10-02 06:17:21'
+      dateModified:
+        description: 'The moment this request last Modified'
+        type: string
+        format: date-time
+        example: '2020-10-02 06:17:21'
+    required: []
+  ChangeLog-write:
+    properties:
+      note:
+        description: 'A note conserning this log lin'
+        type: string
+        example: 'This log line is suspicius'
+        maxLength: 2555
+    required: []
   AuditTrail-read:
     properties:
       id:
@@ -7648,12 +7701,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-10-02 06:10:09'
+        example: '2020-10-02 06:17:21'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-10-02 06:10:09'
+        example: '2020-10-02 06:17:21'
     required: []
   AuditTrail-write:
     properties:
@@ -7663,64 +7716,17 @@ definitions:
         example: 'This log line looks suspicius'
         maxLength: 2555
     required: []
-  ChangeLog-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this object'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      note:
-        description: 'A note conserning this log lin'
-        type: string
-        example: 'This log line is suspicius'
-        maxLength: 2555
-      action:
-        description: ''
-        type: string
-      objectId:
-        description: ''
-        type: string
-      objectClass:
-        description: ''
-        type: string
-      version:
-        description: ''
-        type: int
-      data:
-        description: ''
-        type: array
-      username:
-        description: ''
-        type: string
-      session:
-        description: 'The moment this request was created'
-        type: string
-        maxLength: 255
-      dateCreated:
-        description: 'The moment this request was created'
-        type: string
-        format: date-time
-        example: '2020-10-02 06:10:09'
-      dateModified:
-        description: 'The moment this request last Modified'
-        type: string
-        format: date-time
-        example: '2020-10-02 06:10:09'
-    required: []
-  ChangeLog-write:
-    properties:
-      note:
-        description: 'A note conserning this log lin'
-        type: string
-        example: 'This log line is suspicius'
-        maxLength: 2555
-    required: []
 tags:
   -
     name: Burial
     description: |
       An perons buried in a grave
+      
+      
+  -
+    name: Grave
+    description: |
+      An GRC.
       
       
   -
@@ -7736,19 +7742,13 @@ tags:
       
       
   -
-    name: Grave
-    description: |
-      An GRC.
-      
-      
-  -
-    name: AuditTrail
+    name: ChangeLog
     description: |
       An resource representing a log line.
       
       This entity represents a product that can be ordered via the OrderRegistratieComponent.
   -
-    name: ChangeLog
+    name: AuditTrail
     description: |
       An resource representing a log line.
       
@@ -7759,15 +7759,15 @@ securityDefinitions:
     authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
     flow: implicit
     scopes:
-      read: 'read right to the ChangeLog resource'
-      write: 'write right to the ChangeLog resource'
+      read: 'read right to the AuditTrail resource'
+      write: 'write right to the AuditTrail resource'
   JWT-Token:
     type: apiKey
     in: header
     name: Authorization
     scopes:
-      read: 'read right to the ChangeLog resource'
-      write: 'write right to the ChangeLog resource'
+      read: 'read right to the AuditTrail resource'
+      write: 'write right to the AuditTrail resource'
 host: irc.zaakonline.nl
 servers:
   -

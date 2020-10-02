@@ -3,14 +3,14 @@ entries:
   grc:
   - apiVersion: v1
     appVersion: V.0.6.1
-    created: "2020-10-02T06:09:06.7832348Z"
+    created: "2020-10-02T06:16:41.0382499Z"
     description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
       beschikbaar.
-    digest: 1d87e42cb22da3271afeb63e50b28b75128f17c02edb173fdc772f7aa3540947
+    digest: aaec6fc9d8f928d2a7352ffa878f6ad275044c4bc8aa94ad3f7859ac96bb490f
     home: grc.zuid-drecht.nl
     icon: grc.zuid-drecht.nl
     name: grc
     urls:
     - grc-0.1.0.tgz
     version: 0.1.0
-generated: "2020-10-02T06:09:06.7778109Z"
+generated: "2020-10-02T06:16:41.0324127Z"
