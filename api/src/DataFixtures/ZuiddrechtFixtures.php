@@ -31,6 +31,7 @@ class ZuiddrechtFixtures extends Fixture
             return false;
         }
 
+        /*
         // Cemeteries
         // Algemene Begraafplaats
         $id = Uuid::fromString('5ff4e420-f5bc-4296-b02c-bf5b42215987');
@@ -56,6 +57,7 @@ class ZuiddrechtFixtures extends Fixture
         $manager->persist($cemetery);
         $manager->flush();
         $cemetery = $manager->getRepository('App:Cemetery')->findOneBy(['id'=> $id]);
+        */
 
     }
 }

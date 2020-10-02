@@ -19,8 +19,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
- * An GRC.
+ * An perons buried in a grave
  *
  * @ApiResource(
  *     attributes={"pagination_items_per_page"=30},
@@ -31,7 +32,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "put",
  *          "delete",
  *          "get_change_logs"={
- *              "path"="/graves/{id}/change_log",
+ *              "path"="/burials/{id}/change_log",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Changelogs",
@@ -39,7 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              }
  *          },
  *          "get_audit_trail"={
- *              "path"="/graves/{id}/audit_trail",
+ *              "path"="/burials/{id}/audit_trail",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Audittrail",
@@ -48,7 +49,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          }
  *     }
  * )
- * @ORM\Entity(repositoryClass="App\Repository\GraveRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\BurialRepository")
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
  *
  * @ApiFilter(BooleanFilter::class)
@@ -56,7 +57,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
  * @ApiFilter(SearchFilter::class)
  */
-class Grave
+class Burial
 {
     /**
      * @var UuidInterface The UUID identifier of this resource
@@ -73,97 +74,28 @@ class Grave
     private $id;
 
     /**
-     * @var string The reference of this Grave
+     * @var Grave The grave in  which this burial has taken place
      *
-     * @example zb-01
+     * @Groups({"read", "write"})
+     * @MaxDepth(1)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Grave", inversedBy="burials")
+     */
+    private $grave;
+
+    /**
+     * @var string The deceased resting in this Grave
      *
+     * @example url/deceased1
      * @Assert\Length(
      *     max = 255
      * )
-     * @Groups({"read", "write"})
+     * @Groups({"read","write"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $reference;
+    private $deceased;
 
     /**
-     * @var string A wrc organization that manages this grave
-     *
-     * @example https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f
-     *
-     * @Gedmo\Versioned
-     * @Assert\NotNull
-     * @Assert\Url
-     * @Groups({"read", "write"})
-     * @ORM\Column(type="string", length=255)
-     */
-    private $organization;
-
-    /**
-     * @var string A place for this grave
-     *
-     * @example https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f
-     *
-     * @Gedmo\Versioned
-     * @Assert\NotNull
-     * @Assert\Url
-     * @Groups({"read", "write"})
-     * @ORM\Column(type="string", length=255)
-     */
-    private $place;
-
-    /**
-     * @var string An person or organisation that holds the rights to this grave
-     *
-     * @example https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f
-     *
-     * @Gedmo\Versioned
-     * @Assert\NotNull
-     * @Assert\Url
-     * @Groups({"read", "write"})
-     * @ORM\Column(type="string", length=255)
-     */
-    private $owner;
-
-    /**
-     * @var array A list of persons or organisations that have a vested intresd in this grave
-     *
-     * @example
-     *
-     * @Groups({"read", "write"})
-     * @ORM\Column(type="array")
-     */
-    private $interestedParties = [];
-
-    /**
-     * @var array A list of rulings concerning this grave
-     *
-     * @example
-     *
-     * @Groups({"read", "write"})
-     * @ORM\Column(type="array")
-     */
-    private $rulings = [];
-
-    /**
-     * @var ArrayCollection The burials that have taken place in this grave
-     *
-     * @Groups({"read", "write"})
-     * @MaxDepth(1)
-     * @ORM\OneToMany(targetEntity="App\Entity\Burial", mappedBy="grave")
-     */
-    private $burials;
-
-    /**
-     * @var ArrayCollection The GraveCovers that are part of this Grave
-     *
-     * @Groups({"read", "write"})
-     * @MaxDepth(1)
-     * @ORM\ManyToMany(targetEntity="App\Entity\Cover", mappedBy="grave")
-     */
-    private $covers;
-
-    /**
-     * @var integer The maximum burials in a grave
+     * @var integer The layer on whish this burial is located in a grave
      *
      * @example 3
      *
@@ -173,28 +105,15 @@ class Grave
      * @Groups({"read", "write"})
      * @ORM\Column(type="integer", length=3)
      */
-    private $capacity;
+    private $layer;
 
     /**
-     * @var string The grave type of this Grave
-     *
-     * @example pdc/product
-     * @Assert\Length(
-     *     max = 255
-     * )
-     * @Groups({"read", "write"})
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $graveType;
-
-    /**
-     * @var Datetime The moment this the rights on this grave expire
+     * @var Datetime The moment this burial took place
      *
      * @Groups({"read"})
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $dateRights;
+    private $dateBuried;
 
     /**
      * @var Datetime The moment this entity was created

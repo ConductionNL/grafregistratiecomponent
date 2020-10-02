@@ -12,7 +12,7 @@ info:
     - Docker Image: [online](https://hub.docker.com/repository/docker/conduction/pc-php) 
     - Datamodel: [postman](/schema/grc.postman_collection.json) / [oas](/schema/openapi.yaml) / [pdf](/schema/datamodel.pdf) / [modelio (zip)](/schema/Datamodel_Modelio.zip) 
     
-    'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'         
+    Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.         
     
 paths:
   /audit_trails:
@@ -1036,21 +1036,21 @@ paths:
             schema:
               $ref: '#/components/schemas/AuditTrail-write'
         description: 'The updated AuditTrail resource'
-  /cemeteries:
+  /burials:
     get:
       tags:
-        - Cemetery
-      operationId: getCemeteryCollection
-      summary: 'Retrieves the collection of Cemetery resources.'
+        - Burial
+      operationId: getBurialCollection
+      summary: 'Retrieves the collection of Burial resources.'
       responses:
         200:
-          description: 'Cemetery collection response'
+          description: 'Burial collection response'
           content:
             application/ld+json:
               schema:
                 type: object
                 properties:
-                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Cemetery:jsonld-read' } }
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Burial:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
                   'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
@@ -1060,7 +1060,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Cemetery:jsonld-read' } }
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Burial:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
                   'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
@@ -1070,60 +1070,87 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Cemetery-read'
+                  $ref: '#/components/schemas/Burial-read'
             application/json+hal:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Cemetery-read'
+                  $ref: '#/components/schemas/Burial-read'
             application/vnd.api+json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Cemetery-read'
+                  $ref: '#/components/schemas/Burial-read'
             application/json+vnd.api:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Cemetery-read'
+                  $ref: '#/components/schemas/Burial-read'
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Cemetery-read'
+                  $ref: '#/components/schemas/Burial-read'
             application/health+json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Cemetery-read'
+                  $ref: '#/components/schemas/Burial-read'
             application/json+health:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Cemetery-read'
+                  $ref: '#/components/schemas/Burial-read'
             application/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Cemetery-read'
+                  $ref: '#/components/schemas/Burial-read'
             application/x-yaml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Cemetery-read'
+                  $ref: '#/components/schemas/Burial-read'
             text/csv:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Cemetery-read'
+                  $ref: '#/components/schemas/Burial-read'
             text/html:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Cemetery-read'
+                  $ref: '#/components/schemas/Burial-read'
       parameters:
         -
           name: 'order[id]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[deceased]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[layer]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[dateBuried]'
           in: query
           required: false
           schema:
@@ -1150,50 +1177,29 @@ paths:
               - asc
               - desc
         -
-          name: 'order[reference]'
+          name: 'dateBuried[before]'
           in: query
           required: false
           schema:
             type: string
-            enum:
-              - asc
-              - desc
         -
-          name: 'order[location]'
+          name: 'dateBuried[strictly_before]'
           in: query
           required: false
           schema:
             type: string
-            enum:
-              - asc
-              - desc
         -
-          name: 'order[organization]'
+          name: 'dateBuried[after]'
           in: query
           required: false
           schema:
             type: string
-            enum:
-              - asc
-              - desc
         -
-          name: 'order[calendar]'
+          name: 'dateBuried[strictly_after]'
           in: query
           required: false
           schema:
             type: string
-            enum:
-              - asc
-              - desc
-        -
-          name: 'order[graveTypes]'
-          in: query
-          required: false
-          schema:
-            type: string
-            enum:
-              - asc
-              - desc
         -
           name: 'dateCreated[before]'
           in: query
@@ -1243,13 +1249,13 @@ paths:
           schema:
             type: string
         -
-          name: organization
+          name: id
           in: query
           required: false
           schema:
             type: string
         -
-          name: 'organization[]'
+          name: 'id[]'
           in: query
           required: false
           schema:
@@ -1258,6 +1264,74 @@ paths:
               type: string
           style: form
           explode: true
+        -
+          name: deceased
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'deceased[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: layer
+          in: query
+          required: false
+          schema:
+            type: integer
+        -
+          name: 'layer[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: integer
+          style: form
+          explode: true
+        -
+          name: dateBuried
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateBuried[]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: dateCreated
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: dateModified
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[]'
+          in: query
+          required: false
+          schema:
+            type: string
         -
           name: page
           in: query
@@ -1350,58 +1424,58 @@ paths:
         - application/health+json
     post:
       tags:
-        - Cemetery
-      operationId: postCemeteryCollection
-      summary: 'Creates a Cemetery resource.'
+        - Burial
+      operationId: postBurialCollection
+      summary: 'Creates a Burial resource.'
       responses:
         201:
-          description: 'Cemetery resource created'
+          description: 'Burial resource created'
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/Cemetery:jsonld-read'
+                $ref: '#/components/schemas/Burial:jsonld-read'
             application/json+ld:
               schema:
-                $ref: '#/components/schemas/Cemetery:jsonld-read'
+                $ref: '#/components/schemas/Burial:jsonld-read'
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/json+hal:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/json+vnd.api:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/health+json:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/json+health:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
           links:
-            GetCemeteryItem:
+            GetBurialItem:
               parameters:
                 id: '$response.body#/id'
-              operationId: getCemeteryItem
-              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /cemeteries/{id}`.'
+              operationId: getBurialItem
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /burials/{id}`.'
         400:
           description: 'Invalid input'
         404:
@@ -1410,44 +1484,44 @@ paths:
         content:
           application/ld+json:
             schema:
-              $ref: '#/components/schemas/Cemetery:jsonld-write'
+              $ref: '#/components/schemas/Burial:jsonld-write'
           application/json+ld:
             schema:
-              $ref: '#/components/schemas/Cemetery:jsonld-write'
+              $ref: '#/components/schemas/Burial:jsonld-write'
           application/hal+json:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           application/json+hal:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           application/vnd.api+json:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           application/json+vnd.api:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           application/json:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           application/health+json:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           application/json+health:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           application/xml:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           application/x-yaml:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           text/csv:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           text/html:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
-        description: 'The new Cemetery resource'
+              $ref: '#/components/schemas/Burial-write'
+        description: 'The new Burial resource'
       parameters:
         -
           name: Authorization
@@ -1478,12 +1552,12 @@ paths:
           name: X-NLX-Audit-Clarification
           description: 'A clarification as to why a request has been made  (doelbinding)'
           in: header
-  '/cemeteries/{id}':
+  '/burials/{id}':
     get:
       tags:
-        - Cemetery
-      operationId: getCemeteryItem
-      summary: 'Retrieves a Cemetery resource.'
+        - Burial
+      operationId: getBurialItem
+      summary: 'Retrieves a Burial resource.'
       parameters:
         -
           name: id
@@ -1564,102 +1638,56 @@ paths:
           in: query
       responses:
         200:
-          description: 'Cemetery resource response'
+          description: 'Burial resource response'
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/Cemetery:jsonld-read'
+                $ref: '#/components/schemas/Burial:jsonld-read'
             application/json+ld:
               schema:
-                $ref: '#/components/schemas/Cemetery:jsonld-read'
+                $ref: '#/components/schemas/Burial:jsonld-read'
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/json+hal:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/json+vnd.api:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/health+json:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/json+health:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
         404:
           description: 'Resource not found'
       produces:
         - application/health+json
-    delete:
-      tags:
-        - Cemetery
-      operationId: deleteCemeteryItem
-      summary: 'Removes the Cemetery resource.'
-      responses:
-        204:
-          description: 'Cemetery resource deleted'
-        404:
-          description: 'Resource not found'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        -
-          name: Authorization
-          description: 'The JWT of the entity performing the request'
-          in: header
-        -
-          name: API-Version
-          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
-          example: 1.0.1
-          in: header
-        -
-          name: X-NLX-Logrecord-ID
-          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
-          in: header
-        -
-          name: X-NLX-Request-Process-Id
-          description: 'A process id for purpose registration (doelbinding)'
-          in: header
-        -
-          name: X-NLX-Request-Data-Elements
-          description: 'A list of requested data elements'
-          in: header
-        -
-          name: X-NLX-Request-Data-Subject
-          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
-          in: header
-        -
-          name: X-NLX-Audit-Clarification
-          description: 'A clarification as to why a request has been made  (doelbinding)'
-          in: header
     put:
       tags:
-        - Cemetery
-      operationId: putCemeteryItem
-      summary: 'Replaces the Cemetery resource.'
+        - Burial
+      operationId: putBurialItem
+      summary: 'Replaces the Burial resource.'
       parameters:
         -
           name: id
@@ -1698,47 +1726,47 @@ paths:
           in: header
       responses:
         200:
-          description: 'Cemetery resource updated'
+          description: 'Burial resource updated'
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/Cemetery:jsonld-read'
+                $ref: '#/components/schemas/Burial:jsonld-read'
             application/json+ld:
               schema:
-                $ref: '#/components/schemas/Cemetery:jsonld-read'
+                $ref: '#/components/schemas/Burial:jsonld-read'
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/json+hal:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/json+vnd.api:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/health+json:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/json+health:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
         400:
           description: 'Invalid input'
         404:
@@ -1747,49 +1775,54 @@ paths:
         content:
           application/ld+json:
             schema:
-              $ref: '#/components/schemas/Cemetery:jsonld-write'
+              $ref: '#/components/schemas/Burial:jsonld-write'
           application/json+ld:
             schema:
-              $ref: '#/components/schemas/Cemetery:jsonld-write'
+              $ref: '#/components/schemas/Burial:jsonld-write'
           application/hal+json:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           application/json+hal:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           application/vnd.api+json:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           application/json+vnd.api:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           application/json:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           application/health+json:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           application/json+health:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           application/xml:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           application/x-yaml:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           text/csv:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
+              $ref: '#/components/schemas/Burial-write'
           text/html:
             schema:
-              $ref: '#/components/schemas/Cemetery-write'
-        description: 'The updated Cemetery resource'
-    patch:
+              $ref: '#/components/schemas/Burial-write'
+        description: 'The updated Burial resource'
+    delete:
       tags:
-        - Cemetery
-      operationId: patchCemeteryItem
-      summary: 'Updates the Cemetery resource.'
+        - Burial
+      operationId: deleteBurialItem
+      summary: 'Removes the Burial resource.'
+      responses:
+        204:
+          description: 'Burial resource deleted'
+        404:
+          description: 'Resource not found'
       parameters:
         -
           name: id
@@ -1826,83 +1859,268 @@ paths:
           name: X-NLX-Audit-Clarification
           description: 'A clarification as to why a request has been made  (doelbinding)'
           in: header
+  '/burials/{id}/audit_trail':
+    get:
+      tags:
+        - Burial
+      operationId: get_audit_trailBurialItem
+      summary: 'Retrieves a Burial resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
       responses:
         200:
-          description: 'Cemetery resource updated'
+          description: 'Burial resource response'
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/Cemetery:jsonld-read'
+                $ref: '#/components/schemas/Burial:jsonld-read'
             application/json+ld:
               schema:
-                $ref: '#/components/schemas/Cemetery:jsonld-read'
+                $ref: '#/components/schemas/Burial:jsonld-read'
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/json+hal:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/json+vnd.api:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/health+json:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/json+health:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
+                $ref: '#/components/schemas/Burial-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/Cemetery-read'
-        400:
-          description: 'Invalid input'
+                $ref: '#/components/schemas/Burial-read'
         404:
           description: 'Resource not found'
-      requestBody:
-        content:
-          application/ld+json:
-            schema:
-              $ref: '#/components/schemas/Cemetery:jsonld-write'
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Cemetery-write'
-          application/hal+json:
-            schema:
-              $ref: '#/components/schemas/Cemetery-write'
-          application/vnd.api+json:
-            schema:
-              $ref: '#/components/schemas/Cemetery-write'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/Cemetery-write'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Cemetery-write'
-          applications/x-yaml:
-            schema:
-              $ref: '#/components/schemas/Cemetery-write'
-          text/csv:
-            schema:
-              $ref: '#/components/schemas/Cemetery-write'
-          text/html:
-            schema:
-              $ref: '#/components/schemas/Cemetery-write'
-        description: 'The updated Cemetery resource'
+      produces:
+        - application/health+json
+  '/burials/{id}/change_log':
+    get:
+      tags:
+        - Burial
+      operationId: get_change_logsBurialItem
+      summary: 'Retrieves a Burial resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Burial resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Burial:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Burial:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Burial-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Burial-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Burial-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Burial-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Burial-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Burial-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Burial-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Burial-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Burial-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Burial-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Burial-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
   /change_logs:
     get:
       tags:
@@ -2809,21 +3027,21 @@ paths:
             schema:
               $ref: '#/components/schemas/ChangeLog-write'
         description: 'The updated ChangeLog resource'
-  /grave_covers:
+  /covers:
     get:
       tags:
-        - GraveCover
-      operationId: getGraveCoverCollection
-      summary: 'Retrieves the collection of GraveCover resources.'
+        - Cover
+      operationId: getCoverCollection
+      summary: 'Retrieves the collection of Cover resources.'
       responses:
         200:
-          description: 'GraveCover collection response'
+          description: 'Cover collection response'
           content:
             application/ld+json:
               schema:
                 type: object
                 properties:
-                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/GraveCover:jsonld-read' } }
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Cover:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
                   'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
@@ -2833,7 +3051,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/GraveCover:jsonld-read' } }
+                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Cover:jsonld-read' } }
                   'hydra:totalItems': { type: integer, minimum: 0 }
                   'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
                   'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
@@ -2843,58 +3061,173 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/GraveCover-read'
+                  $ref: '#/components/schemas/Cover-read'
             application/json+hal:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/GraveCover-read'
+                  $ref: '#/components/schemas/Cover-read'
             application/vnd.api+json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/GraveCover-read'
+                  $ref: '#/components/schemas/Cover-read'
             application/json+vnd.api:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/GraveCover-read'
+                  $ref: '#/components/schemas/Cover-read'
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/GraveCover-read'
+                  $ref: '#/components/schemas/Cover-read'
             application/health+json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/GraveCover-read'
+                  $ref: '#/components/schemas/Cover-read'
             application/json+health:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/GraveCover-read'
+                  $ref: '#/components/schemas/Cover-read'
             application/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/GraveCover-read'
+                  $ref: '#/components/schemas/Cover-read'
             application/x-yaml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/GraveCover-read'
+                  $ref: '#/components/schemas/Cover-read'
             text/csv:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/GraveCover-read'
+                  $ref: '#/components/schemas/Cover-read'
             text/html:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/GraveCover-read'
+                  $ref: '#/components/schemas/Cover-read'
       parameters:
+        -
+          name: 'order[id]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[dateCreated]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[dateModified]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'dateCreated[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[strictly_before]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[strictly_after]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: id
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'id[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: dateCreated
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: dateModified
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[]'
+          in: query
+          required: false
+          schema:
+            type: string
         -
           name: page
           in: query
@@ -2987,58 +3320,58 @@ paths:
         - application/health+json
     post:
       tags:
-        - GraveCover
-      operationId: postGraveCoverCollection
-      summary: 'Creates a GraveCover resource.'
+        - Cover
+      operationId: postCoverCollection
+      summary: 'Creates a Cover resource.'
       responses:
         201:
-          description: 'GraveCover resource created'
+          description: 'Cover resource created'
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/GraveCover:jsonld-read'
+                $ref: '#/components/schemas/Cover:jsonld-read'
             application/json+ld:
               schema:
-                $ref: '#/components/schemas/GraveCover:jsonld-read'
+                $ref: '#/components/schemas/Cover:jsonld-read'
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/json+hal:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/json+vnd.api:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/health+json:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/json+health:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
           links:
-            GetGraveCoverItem:
+            GetCoverItem:
               parameters:
                 id: '$response.body#/id'
-              operationId: getGraveCoverItem
-              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /grave_covers/{id}`.'
+              operationId: getCoverItem
+              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /covers/{id}`.'
         400:
           description: 'Invalid input'
         404:
@@ -3047,44 +3380,44 @@ paths:
         content:
           application/ld+json:
             schema:
-              $ref: '#/components/schemas/GraveCover:jsonld-write'
+              $ref: '#/components/schemas/Cover:jsonld-write'
           application/json+ld:
             schema:
-              $ref: '#/components/schemas/GraveCover:jsonld-write'
+              $ref: '#/components/schemas/Cover:jsonld-write'
           application/hal+json:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           application/json+hal:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           application/vnd.api+json:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           application/json+vnd.api:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           application/json:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           application/health+json:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           application/json+health:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           application/xml:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           application/x-yaml:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           text/csv:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           text/html:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
-        description: 'The new GraveCover resource'
+              $ref: '#/components/schemas/Cover-write'
+        description: 'The new Cover resource'
       parameters:
         -
           name: Authorization
@@ -3115,12 +3448,12 @@ paths:
           name: X-NLX-Audit-Clarification
           description: 'A clarification as to why a request has been made  (doelbinding)'
           in: header
-  '/grave_covers/{id}':
+  '/covers/{id}':
     get:
       tags:
-        - GraveCover
-      operationId: getGraveCoverItem
-      summary: 'Retrieves a GraveCover resource.'
+        - Cover
+      operationId: getCoverItem
+      summary: 'Retrieves a Cover resource.'
       parameters:
         -
           name: id
@@ -3201,102 +3534,56 @@ paths:
           in: query
       responses:
         200:
-          description: 'GraveCover resource response'
+          description: 'Cover resource response'
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/GraveCover:jsonld-read'
+                $ref: '#/components/schemas/Cover:jsonld-read'
             application/json+ld:
               schema:
-                $ref: '#/components/schemas/GraveCover:jsonld-read'
+                $ref: '#/components/schemas/Cover:jsonld-read'
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/json+hal:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/json+vnd.api:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/health+json:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/json+health:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
         404:
           description: 'Resource not found'
       produces:
         - application/health+json
-    delete:
-      tags:
-        - GraveCover
-      operationId: deleteGraveCoverItem
-      summary: 'Removes the GraveCover resource.'
-      responses:
-        204:
-          description: 'GraveCover resource deleted'
-        404:
-          description: 'Resource not found'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        -
-          name: Authorization
-          description: 'The JWT of the entity performing the request'
-          in: header
-        -
-          name: API-Version
-          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
-          example: 1.0.1
-          in: header
-        -
-          name: X-NLX-Logrecord-ID
-          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
-          in: header
-        -
-          name: X-NLX-Request-Process-Id
-          description: 'A process id for purpose registration (doelbinding)'
-          in: header
-        -
-          name: X-NLX-Request-Data-Elements
-          description: 'A list of requested data elements'
-          in: header
-        -
-          name: X-NLX-Request-Data-Subject
-          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
-          in: header
-        -
-          name: X-NLX-Audit-Clarification
-          description: 'A clarification as to why a request has been made  (doelbinding)'
-          in: header
     put:
       tags:
-        - GraveCover
-      operationId: putGraveCoverItem
-      summary: 'Replaces the GraveCover resource.'
+        - Cover
+      operationId: putCoverItem
+      summary: 'Replaces the Cover resource.'
       parameters:
         -
           name: id
@@ -3335,47 +3622,47 @@ paths:
           in: header
       responses:
         200:
-          description: 'GraveCover resource updated'
+          description: 'Cover resource updated'
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/GraveCover:jsonld-read'
+                $ref: '#/components/schemas/Cover:jsonld-read'
             application/json+ld:
               schema:
-                $ref: '#/components/schemas/GraveCover:jsonld-read'
+                $ref: '#/components/schemas/Cover:jsonld-read'
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/json+hal:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/json+vnd.api:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/health+json:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/json+health:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
         400:
           description: 'Invalid input'
         404:
@@ -3384,49 +3671,54 @@ paths:
         content:
           application/ld+json:
             schema:
-              $ref: '#/components/schemas/GraveCover:jsonld-write'
+              $ref: '#/components/schemas/Cover:jsonld-write'
           application/json+ld:
             schema:
-              $ref: '#/components/schemas/GraveCover:jsonld-write'
+              $ref: '#/components/schemas/Cover:jsonld-write'
           application/hal+json:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           application/json+hal:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           application/vnd.api+json:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           application/json+vnd.api:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           application/json:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           application/health+json:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           application/json+health:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           application/xml:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           application/x-yaml:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           text/csv:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
+              $ref: '#/components/schemas/Cover-write'
           text/html:
             schema:
-              $ref: '#/components/schemas/GraveCover-write'
-        description: 'The updated GraveCover resource'
-    patch:
+              $ref: '#/components/schemas/Cover-write'
+        description: 'The updated Cover resource'
+    delete:
       tags:
-        - GraveCover
-      operationId: patchGraveCoverItem
-      summary: 'Updates the GraveCover resource.'
+        - Cover
+      operationId: deleteCoverItem
+      summary: 'Removes the Cover resource.'
+      responses:
+        204:
+          description: 'Cover resource deleted'
+        404:
+          description: 'Resource not found'
       parameters:
         -
           name: id
@@ -3463,83 +3755,268 @@ paths:
           name: X-NLX-Audit-Clarification
           description: 'A clarification as to why a request has been made  (doelbinding)'
           in: header
+  '/covers/{id}/audit_trail':
+    get:
+      tags:
+        - Cover
+      operationId: get_audit_trailCoverItem
+      summary: 'Retrieves a Cover resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
       responses:
         200:
-          description: 'GraveCover resource updated'
+          description: 'Cover resource response'
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/GraveCover:jsonld-read'
+                $ref: '#/components/schemas/Cover:jsonld-read'
             application/json+ld:
               schema:
-                $ref: '#/components/schemas/GraveCover:jsonld-read'
+                $ref: '#/components/schemas/Cover:jsonld-read'
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/json+hal:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/json+vnd.api:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/health+json:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/json+health:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
+                $ref: '#/components/schemas/Cover-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/GraveCover-read'
-        400:
-          description: 'Invalid input'
+                $ref: '#/components/schemas/Cover-read'
         404:
           description: 'Resource not found'
-      requestBody:
-        content:
-          application/ld+json:
-            schema:
-              $ref: '#/components/schemas/GraveCover:jsonld-write'
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GraveCover-write'
-          application/hal+json:
-            schema:
-              $ref: '#/components/schemas/GraveCover-write'
-          application/vnd.api+json:
-            schema:
-              $ref: '#/components/schemas/GraveCover-write'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/GraveCover-write'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/GraveCover-write'
-          applications/x-yaml:
-            schema:
-              $ref: '#/components/schemas/GraveCover-write'
-          text/csv:
-            schema:
-              $ref: '#/components/schemas/GraveCover-write'
-          text/html:
-            schema:
-              $ref: '#/components/schemas/GraveCover-write'
-        description: 'The updated GraveCover resource'
+      produces:
+        - application/health+json
+  '/covers/{id}/change_log':
+    get:
+      tags:
+        - Cover
+      operationId: get_change_logsCoverItem
+      summary: 'Retrieves a Cover resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        -
+          name: Authorization
+          description: 'The JWT of the entity performing the request'
+          in: header
+        -
+          name: API-Version
+          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
+          example: 1.0.1
+          in: header
+        -
+          name: X-NLX-Logrecord-ID
+          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
+          in: header
+        -
+          name: X-NLX-Request-Process-Id
+          description: 'A process id for purpose registration (doelbinding)'
+          in: header
+        -
+          name: X-NLX-Request-Data-Elements
+          description: 'A list of requested data elements'
+          in: header
+        -
+          name: X-NLX-Request-Data-Subject
+          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
+          in: header
+        -
+          name: X-NLX-Audit-Clarification
+          description: 'A clarification as to why a request has been made  (doelbinding)'
+          in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+      responses:
+        200:
+          description: 'Cover resource response'
+          content:
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Cover:jsonld-read'
+            application/json+ld:
+              schema:
+                $ref: '#/components/schemas/Cover:jsonld-read'
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Cover-read'
+            application/json+hal:
+              schema:
+                $ref: '#/components/schemas/Cover-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Cover-read'
+            application/json+vnd.api:
+              schema:
+                $ref: '#/components/schemas/Cover-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cover-read'
+            application/health+json:
+              schema:
+                $ref: '#/components/schemas/Cover-read'
+            application/json+health:
+              schema:
+                $ref: '#/components/schemas/Cover-read'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Cover-read'
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/Cover-read'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/Cover-read'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Cover-read'
+        404:
+          description: 'Resource not found'
+      produces:
+        - application/health+json
   /graves:
     get:
       tags:
@@ -3636,6 +4113,78 @@ paths:
               - asc
               - desc
         -
+          name: 'order[reference]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[organization]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[place]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[owner]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[interestedParties]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[capacity]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[graveType]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
+          name: 'order[dateRights]'
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        -
           name: 'order[dateCreated]'
           in: query
           required: false
@@ -3654,77 +4203,29 @@ paths:
               - asc
               - desc
         -
-          name: 'order[description]'
+          name: 'dateRights[before]'
           in: query
           required: false
           schema:
             type: string
-            enum:
-              - asc
-              - desc
         -
-          name: 'order[acquisition]'
+          name: 'dateRights[strictly_before]'
           in: query
           required: false
           schema:
             type: string
-            enum:
-              - asc
-              - desc
         -
-          name: 'order[reference]'
+          name: 'dateRights[after]'
           in: query
           required: false
           schema:
             type: string
-            enum:
-              - asc
-              - desc
         -
-          name: 'order[status]'
+          name: 'dateRights[strictly_after]'
           in: query
           required: false
           schema:
             type: string
-            enum:
-              - asc
-              - desc
-        -
-          name: 'order[location]'
-          in: query
-          required: false
-          schema:
-            type: string
-            enum:
-              - asc
-              - desc
-        -
-          name: 'order[position]'
-          in: query
-          required: false
-          schema:
-            type: string
-            enum:
-              - asc
-              - desc
-        -
-          name: 'order[deceased]'
-          in: query
-          required: false
-          schema:
-            type: string
-            enum:
-              - asc
-              - desc
-        -
-          name: 'order[graveType]'
-          in: query
-          required: false
-          schema:
-            type: string
-            enum:
-              - asc
-              - desc
         -
           name: 'dateCreated[before]'
           in: query
@@ -3774,13 +4275,13 @@ paths:
           schema:
             type: string
         -
-          name: cemetery.id
+          name: id
           in: query
           required: false
           schema:
             type: string
         -
-          name: 'cemetery.id[]'
+          name: 'id[]'
           in: query
           required: false
           schema:
@@ -3789,6 +4290,154 @@ paths:
               type: string
           style: form
           explode: true
+        -
+          name: reference
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'reference[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: organization
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'organization[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: place
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'place[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: owner
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'owner[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: interestedParties
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'interestedParties[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: deepObject
+          explode: true
+        -
+          name: capacity
+          in: query
+          required: false
+          schema:
+            type: integer
+        -
+          name: 'capacity[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: integer
+          style: form
+          explode: true
+        -
+          name: graveType
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'graveType[]'
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          style: form
+          explode: true
+        -
+          name: dateRights
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateRights[]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: dateCreated
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateCreated[]'
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: dateModified
+          in: query
+          required: false
+          schema:
+            type: string
+        -
+          name: 'dateModified[]'
+          in: query
+          required: false
+          schema:
+            type: string
         -
           name: page
           in: query
@@ -4140,52 +4789,6 @@ paths:
           description: 'Resource not found'
       produces:
         - application/health+json
-    delete:
-      tags:
-        - Grave
-      operationId: deleteGraveItem
-      summary: 'Removes the Grave resource.'
-      responses:
-        204:
-          description: 'Grave resource deleted'
-        404:
-          description: 'Resource not found'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        -
-          name: Authorization
-          description: 'The JWT of the entity performing the request'
-          in: header
-        -
-          name: API-Version
-          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
-          example: 1.0.1
-          in: header
-        -
-          name: X-NLX-Logrecord-ID
-          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
-          in: header
-        -
-          name: X-NLX-Request-Process-Id
-          description: 'A process id for purpose registration (doelbinding)'
-          in: header
-        -
-          name: X-NLX-Request-Data-Elements
-          description: 'A list of requested data elements'
-          in: header
-        -
-          name: X-NLX-Request-Data-Subject
-          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
-          in: header
-        -
-          name: X-NLX-Audit-Clarification
-          description: 'A clarification as to why a request has been made  (doelbinding)'
-          in: header
     put:
       tags:
         - Grave
@@ -4316,569 +4919,14 @@ paths:
             schema:
               $ref: '#/components/schemas/Grave-write'
         description: 'The updated Grave resource'
-    patch:
-      tags:
-        - Grave
-      operationId: patchGraveItem
-      summary: 'Updates the Grave resource.'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        -
-          name: Authorization
-          description: 'The JWT of the entity performing the request'
-          in: header
-        -
-          name: API-Version
-          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
-          example: 1.0.1
-          in: header
-        -
-          name: X-NLX-Logrecord-ID
-          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
-          in: header
-        -
-          name: X-NLX-Request-Process-Id
-          description: 'A process id for purpose registration (doelbinding)'
-          in: header
-        -
-          name: X-NLX-Request-Data-Elements
-          description: 'A list of requested data elements'
-          in: header
-        -
-          name: X-NLX-Request-Data-Subject
-          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
-          in: header
-        -
-          name: X-NLX-Audit-Clarification
-          description: 'A clarification as to why a request has been made  (doelbinding)'
-          in: header
-      responses:
-        200:
-          description: 'Grave resource updated'
-          content:
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Grave:jsonld-read'
-            application/json+ld:
-              schema:
-                $ref: '#/components/schemas/Grave:jsonld-read'
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/Grave-read'
-            application/json+hal:
-              schema:
-                $ref: '#/components/schemas/Grave-read'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/Grave-read'
-            application/json+vnd.api:
-              schema:
-                $ref: '#/components/schemas/Grave-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Grave-read'
-            application/health+json:
-              schema:
-                $ref: '#/components/schemas/Grave-read'
-            application/json+health:
-              schema:
-                $ref: '#/components/schemas/Grave-read'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Grave-read'
-            application/x-yaml:
-              schema:
-                $ref: '#/components/schemas/Grave-read'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Grave-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/Grave-read'
-        400:
-          description: 'Invalid input'
-        404:
-          description: 'Resource not found'
-      requestBody:
-        content:
-          application/ld+json:
-            schema:
-              $ref: '#/components/schemas/Grave:jsonld-write'
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Grave-write'
-          application/hal+json:
-            schema:
-              $ref: '#/components/schemas/Grave-write'
-          application/vnd.api+json:
-            schema:
-              $ref: '#/components/schemas/Grave-write'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/Grave-write'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Grave-write'
-          applications/x-yaml:
-            schema:
-              $ref: '#/components/schemas/Grave-write'
-          text/csv:
-            schema:
-              $ref: '#/components/schemas/Grave-write'
-          text/html:
-            schema:
-              $ref: '#/components/schemas/Grave-write'
-        description: 'The updated Grave resource'
-  /stakeholders:
-    get:
-      tags:
-        - Stakeholder
-      operationId: getStakeholderCollection
-      summary: 'Retrieves the collection of Stakeholder resources.'
-      responses:
-        200:
-          description: 'Stakeholder collection response'
-          content:
-            application/ld+json:
-              schema:
-                type: object
-                properties:
-                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Stakeholder:jsonld-read' } }
-                  'hydra:totalItems': { type: integer, minimum: 0 }
-                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
-                required:
-                  - 'hydra:member'
-            application/json+ld:
-              schema:
-                type: object
-                properties:
-                  'hydra:member': { type: array, items: { $ref: '#/components/schemas/Stakeholder:jsonld-read' } }
-                  'hydra:totalItems': { type: integer, minimum: 0 }
-                  'hydra:view': { type: object, properties: { '@id': { type: string, format: iri-reference }, '@type': { type: string }, 'hydra:first': { type: string, format: iri-reference }, 'hydra:last': { type: string, format: iri-reference }, 'hydra:next': { type: string, format: iri-reference } } }
-                  'hydra:search': { type: object, properties: { '@type': { type: string }, 'hydra:template': { type: string }, 'hydra:variableRepresentation': { type: string }, 'hydra:mapping': { type: array, items: { type: object, properties: { '@type': { type: string }, variable: { type: string }, property: { type: string }, required: { type: boolean } } } } } }
-                required:
-                  - 'hydra:member'
-            application/hal+json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Stakeholder-read'
-            application/json+hal:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Stakeholder-read'
-            application/vnd.api+json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Stakeholder-read'
-            application/json+vnd.api:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Stakeholder-read'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Stakeholder-read'
-            application/health+json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Stakeholder-read'
-            application/json+health:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Stakeholder-read'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Stakeholder-read'
-            application/x-yaml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Stakeholder-read'
-            text/csv:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Stakeholder-read'
-            text/html:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Stakeholder-read'
-      parameters:
-        -
-          name: page
-          in: query
-          required: false
-          description: 'The collection page number'
-          schema:
-            type: integer
-            default: 1
-        -
-          name: limit
-          in: query
-          required: false
-          description: 'The number of items per page'
-          schema:
-            type: integer
-            default: 30
-            minimum: 0
-        -
-          name: Authorization
-          description: 'The JWT of the entity performing the request'
-          in: header
-        -
-          name: API-Version
-          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
-          example: 1.0.1
-          in: header
-        -
-          name: X-NLX-Logrecord-ID
-          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
-          in: header
-        -
-          name: X-NLX-Request-Process-Id
-          description: 'A process id for purpose registration (doelbinding)'
-          in: header
-        -
-          name: X-NLX-Request-Data-Elements
-          description: 'A list of requested data elements'
-          in: header
-        -
-          name: X-NLX-Request-Data-Subject
-          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
-          in: header
-        -
-          name: X-NLX-Audit-Clarification
-          description: 'A clarification as to why a request has been made  (doelbinding)'
-          in: header
-        -
-          name: Link
-          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
-          in: header
-        -
-          name: 'extend[]'
-          required: false
-          description: 'An array of nested objects to include in the return object'
-          in: query
-          schema:
-            type: array
-        -
-          name: 'fields[]'
-          required: false
-          description: 'An array of fields to return in output, wil return all fields is not supplied'
-          in: query
-          schema:
-            type: array
-        -
-          name: validOn
-          required: false
-          description: 'Returns object as valid on a given date time'
-          schema:
-            type: string
-            format: date-time
-          in: query
-        -
-          name: validFrom
-          required: false
-          description: 'Returns objects valid from a given date time'
-          schema:
-            type: string
-            format: date-time
-          in: query
-        -
-          name: validUntil
-          required: false
-          description: 'Returns objects valid until a given date time'
-          schema:
-            type: string
-            format: date-time
-          in: query
-      produces:
-        - application/health+json
-    post:
-      tags:
-        - Stakeholder
-      operationId: postStakeholderCollection
-      summary: 'Creates a Stakeholder resource.'
-      responses:
-        201:
-          description: 'Stakeholder resource created'
-          content:
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Stakeholder:jsonld-read'
-            application/json+ld:
-              schema:
-                $ref: '#/components/schemas/Stakeholder:jsonld-read'
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            application/json+hal:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            application/json+vnd.api:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            application/health+json:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            application/json+health:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            application/x-yaml:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-          links:
-            GetStakeholderItem:
-              parameters:
-                id: '$response.body#/id'
-              operationId: getStakeholderItem
-              description: 'The `id` value returned in the response can be used as the `id` parameter in `GET /stakeholders/{id}`.'
-        400:
-          description: 'Invalid input'
-        404:
-          description: 'Resource not found'
-      requestBody:
-        content:
-          application/ld+json:
-            schema:
-              $ref: '#/components/schemas/Stakeholder:jsonld-write'
-          application/json+ld:
-            schema:
-              $ref: '#/components/schemas/Stakeholder:jsonld-write'
-          application/hal+json:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/json+hal:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/vnd.api+json:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/json+vnd.api:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/health+json:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/json+health:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/x-yaml:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          text/csv:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          text/html:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-        description: 'The new Stakeholder resource'
-      parameters:
-        -
-          name: Authorization
-          description: 'The JWT of the entity performing the request'
-          in: header
-        -
-          name: API-Version
-          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
-          example: 1.0.1
-          in: header
-        -
-          name: X-NLX-Logrecord-ID
-          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
-          in: header
-        -
-          name: X-NLX-Request-Process-Id
-          description: 'A process id for purpose registration (doelbinding)'
-          in: header
-        -
-          name: X-NLX-Request-Data-Elements
-          description: 'A list of requested data elements'
-          in: header
-        -
-          name: X-NLX-Request-Data-Subject
-          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
-          in: header
-        -
-          name: X-NLX-Audit-Clarification
-          description: 'A clarification as to why a request has been made  (doelbinding)'
-          in: header
-  '/stakeholders/{id}':
-    get:
-      tags:
-        - Stakeholder
-      operationId: getStakeholderItem
-      summary: 'Retrieves a Stakeholder resource.'
-      parameters:
-        -
-          name: id
-          in: path
-          required: true
-          schema:
-            type: string
-        -
-          name: Authorization
-          description: 'The JWT of the entity performing the request'
-          in: header
-        -
-          name: API-Version
-          description: 'The version of the API conform [Landelijke API-strategie.](https://geonovum.github.io/KP-APIs/#versioning)'
-          example: 1.0.1
-          in: header
-        -
-          name: X-NLX-Logrecord-ID
-          description: 'A  globally unique id of the request, which makes a request traceable throughout the network.'
-          in: header
-        -
-          name: X-NLX-Request-Process-Id
-          description: 'A process id for purpose registration (doelbinding)'
-          in: header
-        -
-          name: X-NLX-Request-Data-Elements
-          description: 'A list of requested data elements'
-          in: header
-        -
-          name: X-NLX-Request-Data-Subject
-          description: 'A key-value list of data subjects related to this request. e.g. `bsn=12345678, kenteken=ab-12-fg`'
-          in: header
-        -
-          name: X-NLX-Audit-Clarification
-          description: 'A clarification as to why a request has been made  (doelbinding)'
-          in: header
-        -
-          name: Link
-          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
-          in: header
-        -
-          name: 'extend[]'
-          required: false
-          description: 'An array of nested objects to include in the return object'
-          in: query
-          schema:
-            type: array
-        -
-          name: 'fields[]'
-          required: false
-          description: 'An array of fields to return in output, wil return all fields is not supplied'
-          in: query
-          schema:
-            type: array
-        -
-          name: validOn
-          required: false
-          description: 'Returns object as valid on a given date time'
-          schema:
-            type: string
-            format: date-time
-          in: query
-        -
-          name: validFrom
-          required: false
-          description: 'Returns objects valid from a given date time'
-          schema:
-            type: string
-            format: date-time
-          in: query
-        -
-          name: validUntil
-          required: false
-          description: 'Returns objects valid until a given date time'
-          schema:
-            type: string
-            format: date-time
-          in: query
-      responses:
-        200:
-          description: 'Stakeholder resource response'
-          content:
-            application/ld+json:
-              schema:
-                $ref: '#/components/schemas/Stakeholder:jsonld-read'
-            application/json+ld:
-              schema:
-                $ref: '#/components/schemas/Stakeholder:jsonld-read'
-            application/hal+json:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            application/json+hal:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            application/json+vnd.api:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            application/health+json:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            application/json+health:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            application/x-yaml:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            text/csv:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-            text/html:
-              schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-        404:
-          description: 'Resource not found'
-      produces:
-        - application/health+json
     delete:
       tags:
-        - Stakeholder
-      operationId: deleteStakeholderItem
-      summary: 'Removes the Stakeholder resource.'
+        - Grave
+      operationId: deleteGraveItem
+      summary: 'Removes the Grave resource.'
       responses:
         204:
-          description: 'Stakeholder resource deleted'
+          description: 'Grave resource deleted'
         404:
           description: 'Resource not found'
       parameters:
@@ -4917,11 +4965,12 @@ paths:
           name: X-NLX-Audit-Clarification
           description: 'A clarification as to why a request has been made  (doelbinding)'
           in: header
-    put:
+  '/graves/{id}/audit_trail':
+    get:
       tags:
-        - Stakeholder
-      operationId: putStakeholderItem
-      summary: 'Replaces the Stakeholder resource.'
+        - Grave
+      operationId: get_audit_trailGraveItem
+      summary: 'Retrieves a Grave resource.'
       parameters:
         -
           name: id
@@ -4958,100 +5007,101 @@ paths:
           name: X-NLX-Audit-Clarification
           description: 'A clarification as to why a request has been made  (doelbinding)'
           in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
       responses:
         200:
-          description: 'Stakeholder resource updated'
+          description: 'Grave resource response'
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/Stakeholder:jsonld-read'
+                $ref: '#/components/schemas/Grave:jsonld-read'
             application/json+ld:
               schema:
-                $ref: '#/components/schemas/Stakeholder:jsonld-read'
+                $ref: '#/components/schemas/Grave:jsonld-read'
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             application/json+hal:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             application/json+vnd.api:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             application/health+json:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             application/json+health:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-        400:
-          description: 'Invalid input'
+                $ref: '#/components/schemas/Grave-read'
         404:
           description: 'Resource not found'
-      requestBody:
-        content:
-          application/ld+json:
-            schema:
-              $ref: '#/components/schemas/Stakeholder:jsonld-write'
-          application/json+ld:
-            schema:
-              $ref: '#/components/schemas/Stakeholder:jsonld-write'
-          application/hal+json:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/json+hal:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/vnd.api+json:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/json+vnd.api:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/health+json:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/json+health:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/x-yaml:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          text/csv:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          text/html:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-        description: 'The updated Stakeholder resource'
-    patch:
+      produces:
+        - application/health+json
+  '/graves/{id}/change_log':
+    get:
       tags:
-        - Stakeholder
-      operationId: patchStakeholderItem
-      summary: 'Updates the Stakeholder resource.'
+        - Grave
+      operationId: get_change_logsGraveItem
+      summary: 'Retrieves a Grave resource.'
       parameters:
         -
           name: id
@@ -5088,83 +5138,95 @@ paths:
           name: X-NLX-Audit-Clarification
           description: 'A clarification as to why a request has been made  (doelbinding)'
           in: header
+        -
+          name: Link
+          description: 'A [websub](https://www.w3.org/TR/websub/#discovery) header like <https://hub.example.com/>; rel="hub"'
+          in: header
+        -
+          name: 'extend[]'
+          required: false
+          description: 'An array of nested objects to include in the return object'
+          in: query
+          schema:
+            type: array
+        -
+          name: 'fields[]'
+          required: false
+          description: 'An array of fields to return in output, wil return all fields is not supplied'
+          in: query
+          schema:
+            type: array
+        -
+          name: validOn
+          required: false
+          description: 'Returns object as valid on a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validFrom
+          required: false
+          description: 'Returns objects valid from a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
+        -
+          name: validUntil
+          required: false
+          description: 'Returns objects valid until a given date time'
+          schema:
+            type: string
+            format: date-time
+          in: query
       responses:
         200:
-          description: 'Stakeholder resource updated'
+          description: 'Grave resource response'
           content:
             application/ld+json:
               schema:
-                $ref: '#/components/schemas/Stakeholder:jsonld-read'
+                $ref: '#/components/schemas/Grave:jsonld-read'
             application/json+ld:
               schema:
-                $ref: '#/components/schemas/Stakeholder:jsonld-read'
+                $ref: '#/components/schemas/Grave:jsonld-read'
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             application/json+hal:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             application/json+vnd.api:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             application/json:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             application/health+json:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             application/json+health:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             application/xml:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             text/csv:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
+                $ref: '#/components/schemas/Grave-read'
             text/html:
               schema:
-                $ref: '#/components/schemas/Stakeholder-read'
-        400:
-          description: 'Invalid input'
+                $ref: '#/components/schemas/Grave-read'
         404:
           description: 'Resource not found'
-      requestBody:
-        content:
-          application/ld+json:
-            schema:
-              $ref: '#/components/schemas/Stakeholder:jsonld-write'
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/hal+json:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/vnd.api+json:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          applications/x-yaml:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          text/csv:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-          text/html:
-            schema:
-              $ref: '#/components/schemas/Stakeholder-write'
-        description: 'The updated Stakeholder resource'
+      produces:
+        - application/health+json
 components:
   schemas:
     AuditTrail-read:
@@ -5428,84 +5490,15 @@ components:
         '@type':
           readOnly: true
           type: string
-    Cemetery-read:
+    Burial-read:
       type: object
-      description: 'An entity representing an Cemetery.'
-      properties:
-        id:
-          readOnly: true
-          description: 'The UUID identifier of this object'
-          externalDocs:
-            url: 'http://schema.org/identifier'
-          type: string
-          format: uuid
-        dateCreated:
-          description: 'The moment this entity was created'
-          type: string
-          format: date-time
-          nullable: true
-        dateModified:
-          description: 'The moment this entity last Modified'
-          type: string
-          format: date-time
-          nullable: true
-        reference:
-          description: 'The grave reference of this Grave'
-          type: string
-          nullable: true
-        location:
-          description: 'The Location of this Cemetery'
-          type: string
-          nullable: true
-        organization:
-          description: 'The Organization of this Cemetery'
-          type: string
-          nullable: true
-        calendar:
-          description: 'The Calendar of this Cemetery'
-          type: string
-          nullable: true
-        graves:
-          description: 'The graves that are part of this Cemetery'
-          type: array
-          items:
-            $ref: '#/components/schemas/Grave-read'
-        graveTypes:
-          description: 'The grave types for this Cemetery'
-          type: string
-          nullable: true
-    Cemetery-write:
+      description: 'An perons buried in a grave'
+    Burial-write:
       type: object
-      description: 'An entity representing an Cemetery.'
-      properties:
-        reference:
-          description: 'The grave reference of this Grave'
-          type: string
-          nullable: true
-        location:
-          description: 'The Location of this Cemetery'
-          type: string
-          nullable: true
-        organization:
-          description: 'The Organization of this Cemetery'
-          type: string
-          nullable: true
-        calendar:
-          description: 'The Calendar of this Cemetery'
-          type: string
-          nullable: true
-        graves:
-          description: 'The graves that are part of this Cemetery'
-          type: array
-          items:
-            $ref: '#/components/schemas/Grave-write'
-        graveTypes:
-          description: 'The grave types for this Cemetery'
-          type: string
-          nullable: true
-    'Cemetery:jsonld-read':
+      description: 'An perons buried in a grave'
+    'Burial:jsonld-read':
       type: object
-      description: 'An entity representing an Cemetery.'
+      description: 'An perons buried in a grave'
       properties:
         '@context':
           readOnly: true
@@ -5516,51 +5509,9 @@ components:
         '@type':
           readOnly: true
           type: string
-        id:
-          readOnly: true
-          description: 'The UUID identifier of this object'
-          externalDocs:
-            url: 'http://schema.org/identifier'
-          type: string
-          format: uuid
-        dateCreated:
-          description: 'The moment this entity was created'
-          type: string
-          format: date-time
-          nullable: true
-        dateModified:
-          description: 'The moment this entity last Modified'
-          type: string
-          format: date-time
-          nullable: true
-        reference:
-          description: 'The grave reference of this Grave'
-          type: string
-          nullable: true
-        location:
-          description: 'The Location of this Cemetery'
-          type: string
-          nullable: true
-        organization:
-          description: 'The Organization of this Cemetery'
-          type: string
-          nullable: true
-        calendar:
-          description: 'The Calendar of this Cemetery'
-          type: string
-          nullable: true
-        graves:
-          description: 'The graves that are part of this Cemetery'
-          type: array
-          items:
-            $ref: '#/components/schemas/Grave:jsonld-read'
-        graveTypes:
-          description: 'The grave types for this Cemetery'
-          type: string
-          nullable: true
-    'Cemetery:jsonld-write':
+    'Burial:jsonld-write':
       type: object
-      description: 'An entity representing an Cemetery.'
+      description: 'An perons buried in a grave'
       properties:
         '@context':
           readOnly: true
@@ -5571,31 +5522,6 @@ components:
         '@type':
           readOnly: true
           type: string
-        reference:
-          description: 'The grave reference of this Grave'
-          type: string
-          nullable: true
-        location:
-          description: 'The Location of this Cemetery'
-          type: string
-          nullable: true
-        organization:
-          description: 'The Organization of this Cemetery'
-          type: string
-          nullable: true
-        calendar:
-          description: 'The Calendar of this Cemetery'
-          type: string
-          nullable: true
-        graves:
-          description: 'The graves that are part of this Cemetery'
-          type: array
-          items:
-            $ref: '#/components/schemas/Grave:jsonld-write'
-        graveTypes:
-          description: 'The grave types for this Cemetery'
-          type: string
-          nullable: true
     ChangeLog-read:
       type: object
       description: 'An resource representing a log line.'
@@ -5713,132 +5639,47 @@ components:
         '@type':
           readOnly: true
           type: string
+    Cover-read:
+      type: object
+      description: 'An object on a grave'
+    Cover-write:
+      type: object
+      description: 'An object on a grave'
+    'Cover:jsonld-read':
+      type: object
+      description: 'An object on a grave'
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
+    'Cover:jsonld-write':
+      type: object
+      description: 'An object on a grave'
+      properties:
+        '@context':
+          readOnly: true
+          type: string
+        '@id':
+          readOnly: true
+          type: string
+        '@type':
+          readOnly: true
+          type: string
     Grave-read:
       type: object
-      description: 'An entity representing an Grave.'
-      properties:
-        id:
-          readOnly: true
-          description: 'The UUID identifier of this object'
-          externalDocs:
-            url: 'http://schema.org/identifier'
-          type: string
-          format: uuid
-        dateCreated:
-          description: 'The moment this entity was created'
-          type: string
-          format: date-time
-          nullable: true
-        dateModified:
-          description: 'The moment this entity last Modified'
-          type: string
-          format: date-time
-          nullable: true
-        description:
-          description: 'The description of this Grave'
-          type: string
-          nullable: true
-        acquisition:
-          description: 'The acquisition of this Grave'
-          type: string
-          nullable: true
-        reference:
-          description: 'The reference of this Grave'
-          type: string
-          nullable: true
-        status:
-          description: 'The status of this Grave'
-          type: string
-          nullable: true
-        location:
-          description: 'The Location of this Grave on a Cemetery'
-          type: string
-          nullable: true
-        position:
-          description: 'The position where a Deceased rests within the Grave'
-          type: integer
-          nullable: true
-        graveCovers:
-          description: 'The GraveCovers that are part of this Grave'
-          type: array
-          items:
-            $ref: '#/components/schemas/GraveCover-read'
-        deceased:
-          description: 'The deceased resting in this Grave'
-          type: string
-          nullable: true
-        stakeholder:
-          description: 'The Stakeholder that is part of this Grave'
-          nullable: true
-          anyOf:
-            -
-              $ref: '#/components/schemas/Stakeholder-read'
-        cemetery:
-          description: 'The Cemetery that is part of this Grave'
-          nullable: true
-          anyOf:
-            -
-              $ref: '#/components/schemas/Cemetery-read'
-        graveType:
-          description: 'The grave type of this Grave'
-          type: string
-          nullable: true
+      description: 'An GRC.'
     Grave-write:
       type: object
-      description: 'An entity representing an Grave.'
-      properties:
-        description:
-          description: 'The description of this Grave'
-          type: string
-          nullable: true
-        acquisition:
-          description: 'The acquisition of this Grave'
-          type: string
-          nullable: true
-        reference:
-          description: 'The reference of this Grave'
-          type: string
-          nullable: true
-        status:
-          description: 'The status of this Grave'
-          type: string
-          nullable: true
-        location:
-          description: 'The Location of this Grave on a Cemetery'
-          type: string
-          nullable: true
-        position:
-          description: 'The position where a Deceased rests within the Grave'
-          type: integer
-          nullable: true
-        graveCovers:
-          description: 'The GraveCovers that are part of this Grave'
-          type: array
-          items:
-            $ref: '#/components/schemas/GraveCover-write'
-        deceased:
-          description: 'The deceased resting in this Grave'
-          type: string
-          nullable: true
-        stakeholder:
-          description: 'The Stakeholder that is part of this Grave'
-          nullable: true
-          anyOf:
-            -
-              $ref: '#/components/schemas/Stakeholder-write'
-        cemetery:
-          description: 'The Cemetery that is part of this Grave'
-          nullable: true
-          anyOf:
-            -
-              $ref: '#/components/schemas/Cemetery-write'
-        graveType:
-          description: 'The grave type of this Grave'
-          type: string
-          nullable: true
+      description: 'An GRC.'
     'Grave:jsonld-read':
       type: object
-      description: 'An entity representing an Grave.'
+      description: 'An GRC.'
       properties:
         '@context':
           readOnly: true
@@ -5849,75 +5690,9 @@ components:
         '@type':
           readOnly: true
           type: string
-        id:
-          readOnly: true
-          description: 'The UUID identifier of this object'
-          externalDocs:
-            url: 'http://schema.org/identifier'
-          type: string
-          format: uuid
-        dateCreated:
-          description: 'The moment this entity was created'
-          type: string
-          format: date-time
-          nullable: true
-        dateModified:
-          description: 'The moment this entity last Modified'
-          type: string
-          format: date-time
-          nullable: true
-        description:
-          description: 'The description of this Grave'
-          type: string
-          nullable: true
-        acquisition:
-          description: 'The acquisition of this Grave'
-          type: string
-          nullable: true
-        reference:
-          description: 'The reference of this Grave'
-          type: string
-          nullable: true
-        status:
-          description: 'The status of this Grave'
-          type: string
-          nullable: true
-        location:
-          description: 'The Location of this Grave on a Cemetery'
-          type: string
-          nullable: true
-        position:
-          description: 'The position where a Deceased rests within the Grave'
-          type: integer
-          nullable: true
-        graveCovers:
-          description: 'The GraveCovers that are part of this Grave'
-          type: array
-          items:
-            $ref: '#/components/schemas/GraveCover:jsonld-read'
-        deceased:
-          description: 'The deceased resting in this Grave'
-          type: string
-          nullable: true
-        stakeholder:
-          description: 'The Stakeholder that is part of this Grave'
-          nullable: true
-          anyOf:
-            -
-              $ref: '#/components/schemas/Stakeholder:jsonld-read'
-        cemetery:
-          description: 'The Cemetery that is part of this Grave'
-          nullable: true
-          anyOf:
-            -
-              $ref: '#/components/schemas/Cemetery:jsonld-read'
-        graveType:
-          description: 'The grave type of this Grave'
-          type: string
-          nullable: true
     'Grave:jsonld-write':
       type: object
-      description: 'An entity representing an Grave.'
+      description: 'An GRC.'
       properties:
         '@context':
           readOnly: true
@@ -5928,300 +5703,59 @@ components:
         '@type':
           readOnly: true
           type: string
-        description:
-          description: 'The description of this Grave'
-          type: string
-          nullable: true
-        acquisition:
-          description: 'The acquisition of this Grave'
-          type: string
-          nullable: true
-        reference:
-          description: 'The reference of this Grave'
-          type: string
-          nullable: true
-        status:
-          description: 'The status of this Grave'
-          type: string
-          nullable: true
-        location:
-          description: 'The Location of this Grave on a Cemetery'
-          type: string
-          nullable: true
-        position:
-          description: 'The position where a Deceased rests within the Grave'
-          type: integer
-          nullable: true
-        graveCovers:
-          description: 'The GraveCovers that are part of this Grave'
-          type: array
-          items:
-            $ref: '#/components/schemas/GraveCover:jsonld-write'
-        deceased:
-          description: 'The deceased resting in this Grave'
-          type: string
-          nullable: true
-        stakeholder:
-          description: 'The Stakeholder that is part of this Grave'
-          nullable: true
-          anyOf:
-            -
-              $ref: '#/components/schemas/Stakeholder:jsonld-write'
-        cemetery:
-          description: 'The Cemetery that is part of this Grave'
-          nullable: true
-          anyOf:
-            -
-              $ref: '#/components/schemas/Cemetery:jsonld-write'
-        graveType:
-          description: 'The grave type of this Grave'
-          type: string
-          nullable: true
-    GraveCover-read:
-      type: object
-      description: 'An entity representing an GraveCover.'
-      properties:
-        id:
-          readOnly: true
-          description: 'The UUID identifier of this object'
-          externalDocs:
-            url: 'http://schema.org/identifier'
-          type: string
-          format: uuid
-        dateCreated:
-          description: 'The moment this entity was created'
-          type: string
-          format: date-time
-          nullable: true
-        dateModified:
-          description: 'The moment this entity last Modified'
-          type: string
-          format: date-time
-          nullable: true
-        reference:
-          description: 'The reference of this GraveCover'
-          type: string
-          nullable: true
-        description:
-          description: 'The description of this GraveCover'
-          type: string
-          nullable: true
-        graves:
-          description: 'The Graves that are part of this GraveCover'
-          type: array
-          items:
-            $ref: '#/components/schemas/Grave-read'
-    GraveCover-write:
-      type: object
-      description: 'An entity representing an GraveCover.'
-      properties:
-        reference:
-          description: 'The reference of this GraveCover'
-          type: string
-          nullable: true
-        description:
-          description: 'The description of this GraveCover'
-          type: string
-          nullable: true
-        graves:
-          description: 'The Graves that are part of this GraveCover'
-          type: array
-          items:
-            $ref: '#/components/schemas/Grave-write'
-    'GraveCover:jsonld-read':
-      type: object
-      description: 'An entity representing an GraveCover.'
-      properties:
-        '@context':
-          readOnly: true
-          type: string
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        id:
-          readOnly: true
-          description: 'The UUID identifier of this object'
-          externalDocs:
-            url: 'http://schema.org/identifier'
-          type: string
-          format: uuid
-        dateCreated:
-          description: 'The moment this entity was created'
-          type: string
-          format: date-time
-          nullable: true
-        dateModified:
-          description: 'The moment this entity last Modified'
-          type: string
-          format: date-time
-          nullable: true
-        reference:
-          description: 'The reference of this GraveCover'
-          type: string
-          nullable: true
-        description:
-          description: 'The description of this GraveCover'
-          type: string
-          nullable: true
-        graves:
-          description: 'The Graves that are part of this GraveCover'
-          type: array
-          items:
-            $ref: '#/components/schemas/Grave:jsonld-read'
-    'GraveCover:jsonld-write':
-      type: object
-      description: 'An entity representing an GraveCover.'
-      properties:
-        '@context':
-          readOnly: true
-          type: string
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        reference:
-          description: 'The reference of this GraveCover'
-          type: string
-          nullable: true
-        description:
-          description: 'The description of this GraveCover'
-          type: string
-          nullable: true
-        graves:
-          description: 'The Graves that are part of this GraveCover'
-          type: array
-          items:
-            $ref: '#/components/schemas/Grave:jsonld-write'
-    Stakeholder-read:
-      type: object
-      description: 'An entity representing an Stakeholder.'
-      properties:
-        id:
-          readOnly: true
-          description: 'The UUID identifier of this object'
-          externalDocs:
-            url: 'http://schema.org/identifier'
-          type: string
-          format: uuid
-        dateCreated:
-          description: 'The moment this entity was created'
-          type: string
-          format: date-time
-          nullable: true
-        dateModified:
-          description: 'The moment this entity last Modified'
-          type: string
-          format: date-time
-          nullable: true
-        contact:
-          description: 'The contact of this Stakeholder'
-          type: string
-          nullable: true
-        ingeschrevenpersoon:
-          description: 'The defined person of this Stakeholder'
-          type: string
-          nullable: true
-        graves:
-          description: 'The graves that are part of this Stakeholder'
-          type: array
-          items:
-            $ref: '#/components/schemas/Grave-read'
-    Stakeholder-write:
-      type: object
-      description: 'An entity representing an Stakeholder.'
-      properties:
-        contact:
-          description: 'The contact of this Stakeholder'
-          type: string
-          nullable: true
-        ingeschrevenpersoon:
-          description: 'The defined person of this Stakeholder'
-          type: string
-          nullable: true
-        graves:
-          description: 'The graves that are part of this Stakeholder'
-          type: array
-          items:
-            $ref: '#/components/schemas/Grave-write'
-    'Stakeholder:jsonld-read':
-      type: object
-      description: 'An entity representing an Stakeholder.'
-      properties:
-        '@context':
-          readOnly: true
-          type: string
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        id:
-          readOnly: true
-          description: 'The UUID identifier of this object'
-          externalDocs:
-            url: 'http://schema.org/identifier'
-          type: string
-          format: uuid
-        dateCreated:
-          description: 'The moment this entity was created'
-          type: string
-          format: date-time
-          nullable: true
-        dateModified:
-          description: 'The moment this entity last Modified'
-          type: string
-          format: date-time
-          nullable: true
-        contact:
-          description: 'The contact of this Stakeholder'
-          type: string
-          nullable: true
-        ingeschrevenpersoon:
-          description: 'The defined person of this Stakeholder'
-          type: string
-          nullable: true
-        graves:
-          description: 'The graves that are part of this Stakeholder'
-          type: array
-          items:
-            $ref: '#/components/schemas/Grave:jsonld-read'
-    'Stakeholder:jsonld-write':
-      type: object
-      description: 'An entity representing an Stakeholder.'
-      properties:
-        '@context':
-          readOnly: true
-          type: string
-        '@id':
-          readOnly: true
-          type: string
-        '@type':
-          readOnly: true
-          type: string
-        contact:
-          description: 'The contact of this Stakeholder'
-          type: string
-          nullable: true
-        ingeschrevenpersoon:
-          description: 'The defined person of this Stakeholder'
-          type: string
-          nullable: true
-        graves:
-          description: 'The graves that are part of this Stakeholder'
-          type: array
-          items:
-            $ref: '#/components/schemas/Grave:jsonld-write'
 definitions:
-  Cemetery-read:
+  Burial-read:
     properties:
       id:
-        description: 'The UUID identifier of this object'
+        description: 'The UUID identifier of this resource'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      deceased:
+        description: 'The deceased resting in this Grave'
+        type: string
+        example: url/deceased1
+        maxLength: 255
+      layer:
+        description: 'The layer on whish this burial is located in a grave'
+        type: string
+        example: '3'
+        format: url
+      dateBuried:
+        description: 'The moment this burial took place'
+        type: \Datetime
+      dateCreated:
+        description: 'The moment this entity was created'
+        type: \Datetime
+      dateModified:
+        description: 'The moment this entity last Modified'
+        type: \Datetime
+      grave:
+        description: 'The grave in  which this burial has taken place'
+        type: \Grave
+    required:
+      - layer
+  Burial-write:
+    properties:
+      deceased:
+        description: 'The deceased resting in this Grave'
+        type: string
+        example: url/deceased1
+        maxLength: 255
+      layer:
+        description: 'The layer on whish this burial is located in a grave'
+        type: string
+        example: '3'
+        format: url
+      grave:
+        description: 'The grave in  which this burial has taken place'
+        type: \Grave
+    required:
+      - layer
+  Cover-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this resource'
         type: string
         example: e2984465-190a-4562-829e-a8cca81aa35d
         format: uuid
@@ -6231,265 +5765,124 @@ definitions:
       dateModified:
         description: 'The moment this entity last Modified'
         type: \Datetime
-      reference:
-        description: 'The grave reference of this Grave'
-        type: string
-        example: Noorderbegraafplaats
-        maxLength: 255
-      location:
-        description: 'The Location of this Cemetery'
-        type: string
-        example: url/location1
-        maxLength: 255
-      organization:
-        description: 'The Organization of this Cemetery'
-        type: string
-        example: url/organization1
-        maxLength: 255
-      calendar:
-        description: 'The Calendar of this Cemetery'
-        type: string
-        example: url/calendar1
-        maxLength: 255
-      graveTypes:
-        description: 'The grave types for this Cemetery'
-        type: string
-        example: pdc/group
-        maxLength: 255
-      graves:
-        description: 'The graves that are part of this Cemetery'
-        type: \ArrayCollection
+      grave:
+        description: 'The grave on whichs this covers rests'
+        type: \Grave
     required: []
-  Cemetery-write:
+  Cover-write:
     properties:
-      reference:
-        description: 'The grave reference of this Grave'
-        type: string
-        example: Noorderbegraafplaats
-        maxLength: 255
-      location:
-        description: 'The Location of this Cemetery'
-        type: string
-        example: url/location1
-        maxLength: 255
-      organization:
-        description: 'The Organization of this Cemetery'
-        type: string
-        example: url/organization1
-        maxLength: 255
-      calendar:
-        description: 'The Calendar of this Cemetery'
-        type: string
-        example: url/calendar1
-        maxLength: 255
-      graveTypes:
-        description: 'The grave types for this Cemetery'
-        type: string
-        example: pdc/group
-        maxLength: 255
-      graves:
-        description: 'The graves that are part of this Cemetery'
-        type: \ArrayCollection
+      grave:
+        description: 'The grave on whichs this covers rests'
+        type: \Grave
     required: []
   Grave-read:
     properties:
       id:
-        description: 'The UUID identifier of this object'
+        description: 'The UUID identifier of this resource'
         type: string
         example: e2984465-190a-4562-829e-a8cca81aa35d
         format: uuid
+      reference:
+        description: 'The reference of this Grave'
+        type: string
+        example: zb-01
+        maxLength: 255
+      organization:
+        description: 'A wrc organization that manages this grave'
+        type: string
+        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
+        format: url
+      place:
+        description: 'A place for this grave'
+        type: string
+        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
+        format: url
+      owner:
+        description: 'An person or organisation that holds the rights to this grave'
+        type: string
+        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
+        format: url
+      interestedParties:
+        description: 'A list of persons or organisations that have a vested intresd in this grave'
+        type: array
+        example: zb-01
+      capacity:
+        description: 'The maximum burials in a grave'
+        type: string
+        example: '3'
+        format: url
+      graveType:
+        description: 'The grave type of this Grave'
+        type: string
+        example: pdc/product
+        maxLength: 255
+      dateRights:
+        description: 'The moment this the rights on this grave expire'
+        type: \Datetime
       dateCreated:
         description: 'The moment this entity was created'
         type: \Datetime
       dateModified:
         description: 'The moment this entity last Modified'
         type: \Datetime
-      description:
-        description: 'The description of this Grave'
-        type: string
-        example: 'beneath a nice tree'
-        maxLength: 255
-      acquisition:
-        description: 'The acquisition of this Grave'
-        type: string
-        example: url
-        maxLength: 255
-      reference:
-        description: 'The reference of this Grave'
-        type: string
-        example: zb-01
-        maxLength: 255
-      status:
-        description: 'The status of this Grave'
-        type: string
-        example: 'in use'
-        maxLength: 255
-      location:
-        description: 'The Location of this Grave on a Cemetery'
-        type: string
-        example: url/locationA
-        maxLength: 255
-      position:
-        description: 'The position where a Deceased rests within the Grave'
-        type: int
-        example: '1'
-      deceased:
-        description: 'The deceased resting in this Grave'
-        type: string
-        example: url/deceased1
-        maxLength: 255
-      graveType:
-        description: 'The grave type of this Grave'
-        type: string
-        example: pdc/product
-        maxLength: 255
-      graveCovers:
+      burials:
+        description: 'The burials that have taken place in this grave'
+        type: \ArrayCollection
+      covers:
         description: 'The GraveCovers that are part of this Grave'
         type: \ArrayCollection
-      stakeholder:
-        description: 'The Stakeholder that is part of this Grave'
-        type: \Stakeholder
-      cemetery:
-        description: 'The Cemetery that is part of this Grave'
-        type: \Cemetery
-    required: []
+    required:
+      - organization
+      - place
+      - owner
+      - capacity
   Grave-write:
     properties:
-      description:
-        description: 'The description of this Grave'
-        type: string
-        example: 'beneath a nice tree'
-        maxLength: 255
-      acquisition:
-        description: 'The acquisition of this Grave'
-        type: string
-        example: url
-        maxLength: 255
       reference:
         description: 'The reference of this Grave'
         type: string
         example: zb-01
         maxLength: 255
-      status:
-        description: 'The status of this Grave'
+      organization:
+        description: 'A wrc organization that manages this grave'
         type: string
-        example: 'in use'
-        maxLength: 255
-      location:
-        description: 'The Location of this Grave on a Cemetery'
+        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
+        format: url
+      place:
+        description: 'A place for this grave'
         type: string
-        example: url/locationA
-        maxLength: 255
-      position:
-        description: 'The position where a Deceased rests within the Grave'
-        type: int
-        example: '1'
-      deceased:
-        description: 'The deceased resting in this Grave'
+        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
+        format: url
+      owner:
+        description: 'An person or organisation that holds the rights to this grave'
         type: string
-        example: url/deceased1
-        maxLength: 255
+        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
+        format: url
+      interestedParties:
+        description: 'A list of persons or organisations that have a vested intresd in this grave'
+        type: array
+        example: zb-01
+      capacity:
+        description: 'The maximum burials in a grave'
+        type: string
+        example: '3'
+        format: url
       graveType:
         description: 'The grave type of this Grave'
         type: string
         example: pdc/product
         maxLength: 255
-      graveCovers:
+      burials:
+        description: 'The burials that have taken place in this grave'
+        type: \ArrayCollection
+      covers:
         description: 'The GraveCovers that are part of this Grave'
         type: \ArrayCollection
-      stakeholder:
-        description: 'The Stakeholder that is part of this Grave'
-        type: \Stakeholder
-      cemetery:
-        description: 'The Cemetery that is part of this Grave'
-        type: \Cemetery
-    required: []
-  GraveCover-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this object'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      dateCreated:
-        description: 'The moment this entity was created'
-        type: \Datetime
-      dateModified:
-        description: 'The moment this entity last Modified'
-        type: \Datetime
-      reference:
-        description: 'The reference of this GraveCover'
-        type: string
-        example: 'Enkel monument'
-        maxLength: 255
-      description:
-        description: 'The description of this GraveCover'
-        type: string
-        example: 'gemaakt van marmer'
-        maxLength: 255
-      graves:
-        description: 'The Graves that are part of this GraveCover'
-        type: \ArrayCollection
-    required: []
-  GraveCover-write:
-    properties:
-      reference:
-        description: 'The reference of this GraveCover'
-        type: string
-        example: 'Enkel monument'
-        maxLength: 255
-      description:
-        description: 'The description of this GraveCover'
-        type: string
-        example: 'gemaakt van marmer'
-        maxLength: 255
-      graves:
-        description: 'The Graves that are part of this GraveCover'
-        type: \ArrayCollection
-    required: []
-  Stakeholder-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this object'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      dateCreated:
-        description: 'The moment this entity was created'
-        type: \Datetime
-      dateModified:
-        description: 'The moment this entity last Modified'
-        type: \Datetime
-      contact:
-        description: 'The contact of this Stakeholder'
-        type: string
-        example: url/contact1
-        maxLength: 255
-      ingeschrevenpersoon:
-        description: 'The defined person of this Stakeholder'
-        type: string
-        example: url/ingeschrevenpersoon1
-        maxLength: 255
-      graves:
-        description: 'The graves that are part of this Stakeholder'
-        type: \ArrayCollection
-    required: []
-  Stakeholder-write:
-    properties:
-      contact:
-        description: 'The contact of this Stakeholder'
-        type: string
-        example: url/contact1
-        maxLength: 255
-      ingeschrevenpersoon:
-        description: 'The defined person of this Stakeholder'
-        type: string
-        example: url/ingeschrevenpersoon1
-        maxLength: 255
-      graves:
-        description: 'The graves that are part of this Stakeholder'
-        type: \ArrayCollection
-    required: []
+    required:
+      - organization
+      - place
+      - owner
+      - capacity
   AuditTrail-read:
     properties:
       id:
@@ -6594,12 +5987,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-16 11:09:42'
+        example: '2020-09-10 13:43:58'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-16 11:09:42'
+        example: '2020-09-10 13:43:58'
     required: []
   AuditTrail-write:
     properties:
@@ -6647,12 +6040,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-07-16 11:09:42'
+        example: '2020-09-10 13:43:58'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-07-16 11:09:42'
+        example: '2020-09-10 13:43:58'
     required: []
   ChangeLog-write:
     properties:
@@ -6664,29 +6057,23 @@ definitions:
     required: []
 tags:
   -
-    name: Cemetery
+    name: Burial
     description: |
-      An entity representing an Cemetery.
+      An perons buried in a grave
       
-      This entity represents an Cemetery for Cemeteries
+      
+  -
+    name: Cover
+    description: |
+      An object on a grave
+      
+      
   -
     name: Grave
     description: |
-      An entity representing an Grave.
+      An GRC.
       
-      This entity represents an Grave for Graves
-  -
-    name: GraveCover
-    description: |
-      An entity representing an GraveCover.
       
-      This entity represents an GraveCover for Graves
-  -
-    name: Stakeholder
-    description: |
-      An entity representing an Stakeholder.
-      
-      This entity represents an Stakeholder for Stakeholders
   -
     name: AuditTrail
     description: |
