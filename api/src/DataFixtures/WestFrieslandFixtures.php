@@ -31,6 +31,7 @@ class WestFrieslandFixtures extends Fixture
         ) {
             return false;
         }
+        return false;
 
         /*
         // Cemeteries
@@ -866,6 +867,5 @@ class WestFrieslandFixtures extends Fixture
 
 
         $manager->flush();
-        */
     }
 }

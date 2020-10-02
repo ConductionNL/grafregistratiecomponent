@@ -30,6 +30,7 @@ class ZuiddrechtFixtures extends Fixture
         ) {
             return false;
         }
+        return false;
 
         /*
         // Cemeteries
