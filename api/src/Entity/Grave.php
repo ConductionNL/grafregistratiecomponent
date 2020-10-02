@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * An GRC.
+ * An grave. Or place that people get buried in. For a data pupose a grave could be both  a physical grave, a nis holding an urn of a ash field or any other place that holds one or more decieced.
  *
  * @ApiResource(
  *     attributes={"pagination_items_per_page"=30},
@@ -73,7 +73,7 @@ class Grave
     private $id;
 
     /**
-     * @var Cemetery The grave in  which this burial has taken place
+     * @var Cemetery The Cemetery that holds or proviced this grave
      *
      * @Groups({"read", "write"})
      * @MaxDepth(1)
@@ -82,7 +82,7 @@ class Grave
     private $cemetery;
 
     /**
-     * @var string The reference of this Grave
+     * @var string The reference of this Grave in humandreadable form, otherwise known as gravenumber.
      *
      * @example zb-01
      *
@@ -95,7 +95,7 @@ class Grave
     private $reference;
 
     /**
-     * @var string A accomodation for this grave
+     * @var string A accomodation for this grave, acoomodations bieng a physical sub set of places (to wichs cemeteries are tied) this provides us with the abillity to split a cemmettary in parts e.g. field or orws and asign a grave to a physical part of the cemetery
      *
      * @example https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f
      *
@@ -108,7 +108,7 @@ class Grave
     private $accomodation;
 
     /**
-     * @var string An person or organisation that holds the rights to this grave
+     * @var string An person or organisation that holds the rights to this grave, as being definded in the the contact component
      *
      * @example https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f
      *
@@ -121,7 +121,7 @@ class Grave
     private $owner;
 
     /**
-     * @var array A list of persons or organisations that have a vested intresd in this grave
+     * @var array A list of persons or organisations that have a vested intrest in this grave
      *
      * @example
      *
@@ -131,7 +131,7 @@ class Grave
     private $interestedParties = [];
 
     /**
-     * @var array A list of rulings concerning this grave
+     * @var array A list of rulings concerning this grave, rullings being the end result of a case. For example the asisign of grave rights
      *
      * @example
      *
@@ -141,7 +141,7 @@ class Grave
     private $rulings = [];
 
     /**
-     * @var ArrayCollection The burials that have taken place in this grave
+     * @var ArrayCollection The burials that have taken place in this grave, a burial being an individual person buried in this grave
      *
      * @Groups({"read", "write"})
      * @MaxDepth(1)
@@ -150,7 +150,7 @@ class Grave
     private $burials;
 
     /**
-     * @var ArrayCollection The GraveCovers that are part of this Grave
+     * @var ArrayCollection The GraveCovers that are part of this Grave, e.g thomb stones
      *
      * @Groups({"read", "write"})
      * @MaxDepth(1)
@@ -159,7 +159,7 @@ class Grave
     private $covers;
 
     /**
-     * @var integer The maximum burials in a grave
+     * @var integer The maximum burials in a grave, e.g. 3 for a standard dutch grave or 2 for an urn place
      *
      * @example 3
      *
@@ -172,7 +172,7 @@ class Grave
     private $capacity;
 
     /**
-     * @var string The grave type of this Grave
+     * @var string The grave type of this Grave defined as an product in the product and service catalog. E.g. grave, ash field etc
      *
      * @example pdc/product
      * @Assert\Length(
@@ -184,7 +184,7 @@ class Grave
     private $graveType;
 
     /**
-     * @var Datetime The moment this the rights on this grave expire
+     * @var Datetime The moment this the rights on this grave expire (as defined by the last rulling theroff on this grave)
      *
      * @Groups({"read"})
      * @Gedmo\Timestampable(on="create")

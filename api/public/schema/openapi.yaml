@@ -6678,7 +6678,7 @@ components:
         - layer
     Cemetery-read:
       type: object
-      description: 'An GRC.'
+      description: 'An cemetery or place where people can get buried. A cemetery is a collection of graves and matches this collection of graves to an organization and place. Therby using place (from the location component) for als geoprahical quastions and organisation (from the wrc) for al organiztationl questions (including user''s, user groups, notification and available products)'
       properties:
         id:
           readOnly: true
@@ -6688,7 +6688,7 @@ components:
           type: string
           format: uuid
         organization:
-          description: 'A wrc organization that manages this grave'
+          description: 'A wrc organization that manages this cemetery'
           externalDocs:
             url: 'http://schema.org/url'
           type: string
@@ -6717,13 +6717,13 @@ components:
         - place
     Cemetery-write:
       type: object
-      description: 'An GRC.'
+      description: 'An cemetery or place where people can get buried. A cemetery is a collection of graves and matches this collection of graves to an organization and place. Therby using place (from the location component) for als geoprahical quastions and organisation (from the wrc) for al organiztationl questions (including user''s, user groups, notification and available products)'
       required:
         - organization
         - place
       properties:
         organization:
-          description: 'A wrc organization that manages this grave'
+          description: 'A wrc organization that manages this cemetery'
           externalDocs:
             url: 'http://schema.org/url'
           type: string
@@ -6739,7 +6739,7 @@ components:
             $ref: '#/components/schemas/Burial-write'
     'Cemetery:jsonld-read':
       type: object
-      description: 'An GRC.'
+      description: 'An cemetery or place where people can get buried. A cemetery is a collection of graves and matches this collection of graves to an organization and place. Therby using place (from the location component) for als geoprahical quastions and organisation (from the wrc) for al organiztationl questions (including user''s, user groups, notification and available products)'
       properties:
         '@context':
           readOnly: true
@@ -6758,7 +6758,7 @@ components:
           type: string
           format: uuid
         organization:
-          description: 'A wrc organization that manages this grave'
+          description: 'A wrc organization that manages this cemetery'
           externalDocs:
             url: 'http://schema.org/url'
           type: string
@@ -6787,7 +6787,7 @@ components:
         - place
     'Cemetery:jsonld-write':
       type: object
-      description: 'An GRC.'
+      description: 'An cemetery or place where people can get buried. A cemetery is a collection of graves and matches this collection of graves to an organization and place. Therby using place (from the location component) for als geoprahical quastions and organisation (from the wrc) for al organiztationl questions (including user''s, user groups, notification and available products)'
       required:
         - organization
         - place
@@ -6802,7 +6802,7 @@ components:
           readOnly: true
           type: string
         organization:
-          description: 'A wrc organization that manages this grave'
+          description: 'A wrc organization that manages this cemetery'
           externalDocs:
             url: 'http://schema.org/url'
           type: string
@@ -7027,7 +7027,7 @@ components:
               $ref: '#/components/schemas/Grave:jsonld-write'
     Grave-read:
       type: object
-      description: 'An GRC.'
+      description: 'An grave. Or place that people get buried in. For a data pupose a grave could be both  a physical grave, a nis holding an urn of a ash field or any other place that holds one or more decieced.'
       properties:
         id:
           readOnly: true
@@ -7037,56 +7037,56 @@ components:
           type: string
           format: uuid
         cemetery:
-          description: 'The grave in  which this burial has taken place'
+          description: 'The Cemetery that holds or proviced this grave'
           nullable: true
           anyOf:
             -
               $ref: '#/components/schemas/Cemetery-read'
         reference:
-          description: 'The reference of this Grave'
+          description: 'The reference of this Grave in humandreadable form, otherwise known as gravenumber.'
           type: string
           nullable: true
         accomodation:
-          description: 'A accomodation for this grave'
+          description: 'A accomodation for this grave, acoomodations bieng a physical sub set of places (to wichs cemeteries are tied) this provides us with the abillity to split a cemmettary in parts e.g. field or orws and asign a grave to a physical part of the cemetery'
           externalDocs:
             url: 'http://schema.org/url'
           type: string
         owner:
-          description: 'An person or organisation that holds the rights to this grave'
+          description: 'An person or organisation that holds the rights to this grave, as being definded in the the contact component'
           externalDocs:
             url: 'http://schema.org/url'
           type: string
         interestedParties:
-          description: 'A list of persons or organisations that have a vested intresd in this grave'
+          description: 'A list of persons or organisations that have a vested intrest in this grave'
           type: array
           items:
             type: string
         rulings:
-          description: 'A list of rulings concerning this grave'
+          description: 'A list of rulings concerning this grave, rullings being the end result of a case. For example the asisign of grave rights'
           type: array
           items:
             type: string
         burials:
-          description: 'The burials that have taken place in this grave'
+          description: 'The burials that have taken place in this grave, a burial being an individual person buried in this grave'
           type: array
           items:
             $ref: '#/components/schemas/Burial-read'
         covers:
-          description: 'The GraveCovers that are part of this Grave'
+          description: 'The GraveCovers that are part of this Grave, e.g thomb stones'
           type: array
           items:
             $ref: '#/components/schemas/Cover-read'
         capacity:
-          description: 'The maximum burials in a grave'
+          description: 'The maximum burials in a grave, e.g. 3 for a standard dutch grave or 2 for an urn place'
           externalDocs:
             url: 'http://schema.org/url'
           type: integer
         graveType:
-          description: 'The grave type of this Grave'
+          description: 'The grave type of this Grave defined as an product in the product and service catalog. E.g. grave, ash field etc'
           type: string
           nullable: true
         dateRights:
-          description: 'The moment this the rights on this grave expire'
+          description: 'The moment this the rights on this grave expire (as defined by the last rulling theroff on this grave)'
           type: string
           format: date-time
           nullable: true
@@ -7106,55 +7106,55 @@ components:
         - capacity
     Grave-write:
       type: object
-      description: 'An GRC.'
+      description: 'An grave. Or place that people get buried in. For a data pupose a grave could be both  a physical grave, a nis holding an urn of a ash field or any other place that holds one or more decieced.'
       properties:
         cemetery:
-          description: 'The grave in  which this burial has taken place'
+          description: 'The Cemetery that holds or proviced this grave'
           nullable: true
           anyOf:
             -
               $ref: '#/components/schemas/Cemetery-write'
         reference:
-          description: 'The reference of this Grave'
+          description: 'The reference of this Grave in humandreadable form, otherwise known as gravenumber.'
           type: string
           nullable: true
         accomodation:
-          description: 'A accomodation for this grave'
+          description: 'A accomodation for this grave, acoomodations bieng a physical sub set of places (to wichs cemeteries are tied) this provides us with the abillity to split a cemmettary in parts e.g. field or orws and asign a grave to a physical part of the cemetery'
           externalDocs:
             url: 'http://schema.org/url'
           type: string
         owner:
-          description: 'An person or organisation that holds the rights to this grave'
+          description: 'An person or organisation that holds the rights to this grave, as being definded in the the contact component'
           externalDocs:
             url: 'http://schema.org/url'
           type: string
         interestedParties:
-          description: 'A list of persons or organisations that have a vested intresd in this grave'
+          description: 'A list of persons or organisations that have a vested intrest in this grave'
           type: array
           items:
             type: string
         rulings:
-          description: 'A list of rulings concerning this grave'
+          description: 'A list of rulings concerning this grave, rullings being the end result of a case. For example the asisign of grave rights'
           type: array
           items:
             type: string
         burials:
-          description: 'The burials that have taken place in this grave'
+          description: 'The burials that have taken place in this grave, a burial being an individual person buried in this grave'
           type: array
           items:
             $ref: '#/components/schemas/Burial-write'
         covers:
-          description: 'The GraveCovers that are part of this Grave'
+          description: 'The GraveCovers that are part of this Grave, e.g thomb stones'
           type: array
           items:
             $ref: '#/components/schemas/Cover-write'
         capacity:
-          description: 'The maximum burials in a grave'
+          description: 'The maximum burials in a grave, e.g. 3 for a standard dutch grave or 2 for an urn place'
           externalDocs:
             url: 'http://schema.org/url'
           type: integer
         graveType:
-          description: 'The grave type of this Grave'
+          description: 'The grave type of this Grave defined as an product in the product and service catalog. E.g. grave, ash field etc'
           type: string
           nullable: true
       required:
@@ -7163,7 +7163,7 @@ components:
         - capacity
     'Grave:jsonld-read':
       type: object
-      description: 'An GRC.'
+      description: 'An grave. Or place that people get buried in. For a data pupose a grave could be both  a physical grave, a nis holding an urn of a ash field or any other place that holds one or more decieced.'
       properties:
         '@context':
           readOnly: true
@@ -7182,56 +7182,56 @@ components:
           type: string
           format: uuid
         cemetery:
-          description: 'The grave in  which this burial has taken place'
+          description: 'The Cemetery that holds or proviced this grave'
           nullable: true
           anyOf:
             -
               $ref: '#/components/schemas/Cemetery:jsonld-read'
         reference:
-          description: 'The reference of this Grave'
+          description: 'The reference of this Grave in humandreadable form, otherwise known as gravenumber.'
           type: string
           nullable: true
         accomodation:
-          description: 'A accomodation for this grave'
+          description: 'A accomodation for this grave, acoomodations bieng a physical sub set of places (to wichs cemeteries are tied) this provides us with the abillity to split a cemmettary in parts e.g. field or orws and asign a grave to a physical part of the cemetery'
           externalDocs:
             url: 'http://schema.org/url'
           type: string
         owner:
-          description: 'An person or organisation that holds the rights to this grave'
+          description: 'An person or organisation that holds the rights to this grave, as being definded in the the contact component'
           externalDocs:
             url: 'http://schema.org/url'
           type: string
         interestedParties:
-          description: 'A list of persons or organisations that have a vested intresd in this grave'
+          description: 'A list of persons or organisations that have a vested intrest in this grave'
           type: array
           items:
             type: string
         rulings:
-          description: 'A list of rulings concerning this grave'
+          description: 'A list of rulings concerning this grave, rullings being the end result of a case. For example the asisign of grave rights'
           type: array
           items:
             type: string
         burials:
-          description: 'The burials that have taken place in this grave'
+          description: 'The burials that have taken place in this grave, a burial being an individual person buried in this grave'
           type: array
           items:
             $ref: '#/components/schemas/Burial:jsonld-read'
         covers:
-          description: 'The GraveCovers that are part of this Grave'
+          description: 'The GraveCovers that are part of this Grave, e.g thomb stones'
           type: array
           items:
             $ref: '#/components/schemas/Cover:jsonld-read'
         capacity:
-          description: 'The maximum burials in a grave'
+          description: 'The maximum burials in a grave, e.g. 3 for a standard dutch grave or 2 for an urn place'
           externalDocs:
             url: 'http://schema.org/url'
           type: integer
         graveType:
-          description: 'The grave type of this Grave'
+          description: 'The grave type of this Grave defined as an product in the product and service catalog. E.g. grave, ash field etc'
           type: string
           nullable: true
         dateRights:
-          description: 'The moment this the rights on this grave expire'
+          description: 'The moment this the rights on this grave expire (as defined by the last rulling theroff on this grave)'
           type: string
           format: date-time
           nullable: true
@@ -7251,7 +7251,7 @@ components:
         - capacity
     'Grave:jsonld-write':
       type: object
-      description: 'An GRC.'
+      description: 'An grave. Or place that people get buried in. For a data pupose a grave could be both  a physical grave, a nis holding an urn of a ash field or any other place that holds one or more decieced.'
       properties:
         '@context':
           readOnly: true
@@ -7263,52 +7263,52 @@ components:
           readOnly: true
           type: string
         cemetery:
-          description: 'The grave in  which this burial has taken place'
+          description: 'The Cemetery that holds or proviced this grave'
           nullable: true
           anyOf:
             -
               $ref: '#/components/schemas/Cemetery:jsonld-write'
         reference:
-          description: 'The reference of this Grave'
+          description: 'The reference of this Grave in humandreadable form, otherwise known as gravenumber.'
           type: string
           nullable: true
         accomodation:
-          description: 'A accomodation for this grave'
+          description: 'A accomodation for this grave, acoomodations bieng a physical sub set of places (to wichs cemeteries are tied) this provides us with the abillity to split a cemmettary in parts e.g. field or orws and asign a grave to a physical part of the cemetery'
           externalDocs:
             url: 'http://schema.org/url'
           type: string
         owner:
-          description: 'An person or organisation that holds the rights to this grave'
+          description: 'An person or organisation that holds the rights to this grave, as being definded in the the contact component'
           externalDocs:
             url: 'http://schema.org/url'
           type: string
         interestedParties:
-          description: 'A list of persons or organisations that have a vested intresd in this grave'
+          description: 'A list of persons or organisations that have a vested intrest in this grave'
           type: array
           items:
             type: string
         rulings:
-          description: 'A list of rulings concerning this grave'
+          description: 'A list of rulings concerning this grave, rullings being the end result of a case. For example the asisign of grave rights'
           type: array
           items:
             type: string
         burials:
-          description: 'The burials that have taken place in this grave'
+          description: 'The burials that have taken place in this grave, a burial being an individual person buried in this grave'
           type: array
           items:
             $ref: '#/components/schemas/Burial:jsonld-write'
         covers:
-          description: 'The GraveCovers that are part of this Grave'
+          description: 'The GraveCovers that are part of this Grave, e.g thomb stones'
           type: array
           items:
             $ref: '#/components/schemas/Cover:jsonld-write'
         capacity:
-          description: 'The maximum burials in a grave'
+          description: 'The maximum burials in a grave, e.g. 3 for a standard dutch grave or 2 for an urn place'
           externalDocs:
             url: 'http://schema.org/url'
           type: integer
         graveType:
-          description: 'The grave type of this Grave'
+          description: 'The grave type of this Grave defined as an product in the product and service catalog. E.g. grave, ash field etc'
           type: string
           nullable: true
       required:
@@ -7364,116 +7364,6 @@ definitions:
         type: \Grave
     required:
       - layer
-  Grave-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this resource'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      reference:
-        description: 'The reference of this Grave'
-        type: string
-        example: zb-01
-        maxLength: 255
-      accomodation:
-        description: 'A accomodation for this grave'
-        type: string
-        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
-        format: url
-      owner:
-        description: 'An person or organisation that holds the rights to this grave'
-        type: string
-        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
-        format: url
-      interestedParties:
-        description: 'A list of persons or organisations that have a vested intresd in this grave'
-        type: array
-        example: ''
-      rulings:
-        description: 'A list of rulings concerning this grave'
-        type: array
-        example: ''
-      capacity:
-        description: 'The maximum burials in a grave'
-        type: string
-        example: '3'
-        format: url
-      graveType:
-        description: 'The grave type of this Grave'
-        type: string
-        example: pdc/product
-        maxLength: 255
-      dateRights:
-        description: 'The moment this the rights on this grave expire'
-        type: \Datetime
-      dateCreated:
-        description: 'The moment this entity was created'
-        type: \Datetime
-      dateModified:
-        description: 'The moment this entity last Modified'
-        type: \Datetime
-      cemetery:
-        description: 'The grave in  which this burial has taken place'
-        type: \Cemetery
-      burials:
-        description: 'The burials that have taken place in this grave'
-        type: \ArrayCollection
-      covers:
-        description: 'The GraveCovers that are part of this Grave'
-        type: \ArrayCollection
-    required:
-      - accomodation
-      - owner
-      - capacity
-  Grave-write:
-    properties:
-      reference:
-        description: 'The reference of this Grave'
-        type: string
-        example: zb-01
-        maxLength: 255
-      accomodation:
-        description: 'A accomodation for this grave'
-        type: string
-        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
-        format: url
-      owner:
-        description: 'An person or organisation that holds the rights to this grave'
-        type: string
-        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
-        format: url
-      interestedParties:
-        description: 'A list of persons or organisations that have a vested intresd in this grave'
-        type: array
-        example: ''
-      rulings:
-        description: 'A list of rulings concerning this grave'
-        type: array
-        example: ''
-      capacity:
-        description: 'The maximum burials in a grave'
-        type: string
-        example: '3'
-        format: url
-      graveType:
-        description: 'The grave type of this Grave'
-        type: string
-        example: pdc/product
-        maxLength: 255
-      cemetery:
-        description: 'The grave in  which this burial has taken place'
-        type: \Cemetery
-      burials:
-        description: 'The burials that have taken place in this grave'
-        type: \ArrayCollection
-      covers:
-        description: 'The GraveCovers that are part of this Grave'
-        type: \ArrayCollection
-    required:
-      - accomodation
-      - owner
-      - capacity
   Cemetery-read:
     properties:
       id:
@@ -7482,7 +7372,7 @@ definitions:
         example: e2984465-190a-4562-829e-a8cca81aa35d
         format: uuid
       organization:
-        description: 'A wrc organization that manages this grave'
+        description: 'A wrc organization that manages this cemetery'
         type: string
         example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
         format: url
@@ -7506,7 +7396,7 @@ definitions:
   Cemetery-write:
     properties:
       organization:
-        description: 'A wrc organization that manages this grave'
+        description: 'A wrc organization that manages this cemetery'
         type: string
         example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
         format: url
@@ -7544,59 +7434,116 @@ definitions:
         description: 'The grave on whichs this covers rests'
         type: \Grave
     required: []
-  ChangeLog-read:
+  Grave-read:
     properties:
       id:
-        description: 'The UUID identifier of this object'
+        description: 'The UUID identifier of this resource'
         type: string
         example: e2984465-190a-4562-829e-a8cca81aa35d
         format: uuid
-      note:
-        description: 'A note conserning this log lin'
+      reference:
+        description: 'The reference of this Grave in humandreadable form, otherwise known as gravenumber.'
         type: string
-        example: 'This log line is suspicius'
-        maxLength: 2555
-      action:
-        description: ''
-        type: string
-      objectId:
-        description: ''
-        type: string
-      objectClass:
-        description: ''
-        type: string
-      version:
-        description: ''
-        type: int
-      data:
-        description: ''
-        type: array
-      username:
-        description: ''
-        type: string
-      session:
-        description: 'The moment this request was created'
-        type: string
+        example: zb-01
         maxLength: 255
+      accomodation:
+        description: 'A accomodation for this grave, acoomodations bieng a physical sub set of places (to wichs cemeteries are tied) this provides us with the abillity to split a cemmettary in parts e.g. field or orws and asign a grave to a physical part of the cemetery'
+        type: string
+        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
+        format: url
+      owner:
+        description: 'An person or organisation that holds the rights to this grave, as being definded in the the contact component'
+        type: string
+        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
+        format: url
+      interestedParties:
+        description: 'A list of persons or organisations that have a vested intrest in this grave'
+        type: array
+        example: ''
+      rulings:
+        description: 'A list of rulings concerning this grave, rullings being the end result of a case. For example the asisign of grave rights'
+        type: array
+        example: ''
+      capacity:
+        description: 'The maximum burials in a grave, e.g. 3 for a standard dutch grave or 2 for an urn place'
+        type: string
+        example: '3'
+        format: url
+      graveType:
+        description: 'The grave type of this Grave defined as an product in the product and service catalog. E.g. grave, ash field etc'
+        type: string
+        example: pdc/product
+        maxLength: 255
+      dateRights:
+        description: 'The moment this the rights on this grave expire (as defined by the last rulling theroff on this grave)'
+        type: \Datetime
       dateCreated:
-        description: 'The moment this request was created'
-        type: string
-        format: date-time
-        example: '2020-10-02 06:17:21'
+        description: 'The moment this entity was created'
+        type: \Datetime
       dateModified:
-        description: 'The moment this request last Modified'
-        type: string
-        format: date-time
-        example: '2020-10-02 06:17:21'
-    required: []
-  ChangeLog-write:
+        description: 'The moment this entity last Modified'
+        type: \Datetime
+      cemetery:
+        description: 'The Cemetery that holds or proviced this grave'
+        type: \Cemetery
+      burials:
+        description: 'The burials that have taken place in this grave, a burial being an individual person buried in this grave'
+        type: \ArrayCollection
+      covers:
+        description: 'The GraveCovers that are part of this Grave, e.g thomb stones'
+        type: \ArrayCollection
+    required:
+      - accomodation
+      - owner
+      - capacity
+  Grave-write:
     properties:
-      note:
-        description: 'A note conserning this log lin'
+      reference:
+        description: 'The reference of this Grave in humandreadable form, otherwise known as gravenumber.'
         type: string
-        example: 'This log line is suspicius'
-        maxLength: 2555
-    required: []
+        example: zb-01
+        maxLength: 255
+      accomodation:
+        description: 'A accomodation for this grave, acoomodations bieng a physical sub set of places (to wichs cemeteries are tied) this provides us with the abillity to split a cemmettary in parts e.g. field or orws and asign a grave to a physical part of the cemetery'
+        type: string
+        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
+        format: url
+      owner:
+        description: 'An person or organisation that holds the rights to this grave, as being definded in the the contact component'
+        type: string
+        example: 'https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f'
+        format: url
+      interestedParties:
+        description: 'A list of persons or organisations that have a vested intrest in this grave'
+        type: array
+        example: ''
+      rulings:
+        description: 'A list of rulings concerning this grave, rullings being the end result of a case. For example the asisign of grave rights'
+        type: array
+        example: ''
+      capacity:
+        description: 'The maximum burials in a grave, e.g. 3 for a standard dutch grave or 2 for an urn place'
+        type: string
+        example: '3'
+        format: url
+      graveType:
+        description: 'The grave type of this Grave defined as an product in the product and service catalog. E.g. grave, ash field etc'
+        type: string
+        example: pdc/product
+        maxLength: 255
+      cemetery:
+        description: 'The Cemetery that holds or proviced this grave'
+        type: \Cemetery
+      burials:
+        description: 'The burials that have taken place in this grave, a burial being an individual person buried in this grave'
+        type: \ArrayCollection
+      covers:
+        description: 'The GraveCovers that are part of this Grave, e.g thomb stones'
+        type: \ArrayCollection
+    required:
+      - accomodation
+      - owner
+      - capacity
   AuditTrail-read:
     properties:
       id:
@@ -7701,12 +7648,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2020-10-02 06:17:21'
+        example: '2020-10-02 07:44:01'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2020-10-02 06:17:21'
+        example: '2020-10-02 07:44:01'
     required: []
   AuditTrail-write:
     properties:
@@ -7714,6 +7661,59 @@ definitions:
         description: 'A note conserning this log lin'
         type: string
         example: 'This log line looks suspicius'
+        maxLength: 2555
+    required: []
+  ChangeLog-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this object'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      note:
+        description: 'A note conserning this log lin'
+        type: string
+        example: 'This log line is suspicius'
+        maxLength: 2555
+      action:
+        description: ''
+        type: string
+      objectId:
+        description: ''
+        type: string
+      objectClass:
+        description: ''
+        type: string
+      version:
+        description: ''
+        type: int
+      data:
+        description: ''
+        type: array
+      username:
+        description: ''
+        type: string
+      session:
+        description: 'The moment this request was created'
+        type: string
+        maxLength: 255
+      dateCreated:
+        description: 'The moment this request was created'
+        type: string
+        format: date-time
+        example: '2020-10-02 07:44:01'
+      dateModified:
+        description: 'The moment this request last Modified'
+        type: string
+        format: date-time
+        example: '2020-10-02 07:44:01'
+    required: []
+  ChangeLog-write:
+    properties:
+      note:
+        description: 'A note conserning this log lin'
+        type: string
+        example: 'This log line is suspicius'
         maxLength: 2555
     required: []
 tags:
@@ -7724,15 +7724,9 @@ tags:
       
       
   -
-    name: Grave
-    description: |
-      An GRC.
-      
-      
-  -
     name: Cemetery
     description: |
-      An GRC.
+      An cemetery or place where people can get buried. A cemetery is a collection of graves and matches this collection of graves to an organization and place. Therby using place (from the location component) for als geoprahical quastions and organisation (from the wrc) for al organiztationl questions (including user's, user groups, notification and available products)
       
       
   -
@@ -7742,13 +7736,19 @@ tags:
       
       
   -
-    name: ChangeLog
+    name: Grave
+    description: |
+      An grave. Or place that people get buried in. For a data pupose a grave could be both  a physical grave, a nis holding an urn of a ash field or any other place that holds one or more decieced.
+      
+      
+  -
+    name: AuditTrail
     description: |
       An resource representing a log line.
       
       This entity represents a product that can be ordered via the OrderRegistratieComponent.
   -
-    name: AuditTrail
+    name: ChangeLog
     description: |
       An resource representing a log line.
       
@@ -7759,15 +7759,15 @@ securityDefinitions:
     authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
     flow: implicit
     scopes:
-      read: 'read right to the AuditTrail resource'
-      write: 'write right to the AuditTrail resource'
+      read: 'read right to the ChangeLog resource'
+      write: 'write right to the ChangeLog resource'
   JWT-Token:
     type: apiKey
     in: header
     name: Authorization
     scopes:
-      read: 'read right to the AuditTrail resource'
-      write: 'write right to the AuditTrail resource'
+      read: 'read right to the ChangeLog resource'
+      write: 'write right to the ChangeLog resource'
 host: irc.zaakonline.nl
 servers:
   -
