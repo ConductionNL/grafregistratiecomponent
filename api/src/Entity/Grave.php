@@ -73,6 +73,15 @@ class Grave
     private $id;
 
     /**
+     * @var Cemetery The grave in  which this burial has taken place
+     *
+     * @Groups({"read", "write"})
+     * @MaxDepth(1)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cemetery", inversedBy="graves")
+     */
+    private $cemetery;
+
+    /**
      * @var string The reference of this Grave
      *
      * @example zb-01
@@ -86,7 +95,7 @@ class Grave
     private $reference;
 
     /**
-     * @var string A wrc organization that manages this grave
+     * @var string A accomodation for this grave
      *
      * @example https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f
      *
@@ -96,20 +105,7 @@ class Grave
      * @Groups({"read", "write"})
      * @ORM\Column(type="string", length=255)
      */
-    private $organization;
-
-    /**
-     * @var string A place for this grave
-     *
-     * @example https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f
-     *
-     * @Gedmo\Versioned
-     * @Assert\NotNull
-     * @Assert\Url
-     * @Groups({"read", "write"})
-     * @ORM\Column(type="string", length=255)
-     */
-    private $place;
+    private $accomodation;
 
     /**
      * @var string An person or organisation that holds the rights to this grave
@@ -213,6 +209,208 @@ class Grave
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateModified;
+
+    public function __construct()
+    {
+        $this->burials = new ArrayCollection();
+        $this->covers = new ArrayCollection();
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(?string $reference): self
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getAccomodation(): ?string
+    {
+        return $this->accomodation;
+    }
+
+    public function setAccomodation(string $accomodation): self
+    {
+        $this->accomodation = $accomodation;
+
+        return $this;
+    }
+
+    public function getOwner(): ?string
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(string $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getInterestedParties(): ?array
+    {
+        return $this->interestedParties;
+    }
+
+    public function setInterestedParties(array $interestedParties): self
+    {
+        $this->interestedParties = $interestedParties;
+
+        return $this;
+    }
+
+    public function getRulings(): ?array
+    {
+        return $this->rulings;
+    }
+
+    public function setRulings(array $rulings): self
+    {
+        $this->rulings = $rulings;
+
+        return $this;
+    }
+
+    public function getCapacity(): ?int
+    {
+        return $this->capacity;
+    }
+
+    public function setCapacity(int $capacity): self
+    {
+        $this->capacity = $capacity;
+
+        return $this;
+    }
+
+    public function getGraveType(): ?string
+    {
+        return $this->graveType;
+    }
+
+    public function setGraveType(?string $graveType): self
+    {
+        $this->graveType = $graveType;
+
+        return $this;
+    }
+
+    public function getDateRights(): ?\DateTimeInterface
+    {
+        return $this->dateRights;
+    }
+
+    public function setDateRights(?\DateTimeInterface $dateRights): self
+    {
+        $this->dateRights = $dateRights;
+
+        return $this;
+    }
+
+    public function getDateCreated(): ?\DateTimeInterface
+    {
+        return $this->dateCreated;
+    }
+
+    public function setDateCreated(?\DateTimeInterface $dateCreated): self
+    {
+        $this->dateCreated = $dateCreated;
+
+        return $this;
+    }
+
+    public function getDateModified(): ?\DateTimeInterface
+    {
+        return $this->dateModified;
+    }
+
+    public function setDateModified(?\DateTimeInterface $dateModified): self
+    {
+        $this->dateModified = $dateModified;
+
+        return $this;
+    }
+
+    public function getCemetery(): ?Cemetery
+    {
+        return $this->cemetery;
+    }
+
+    public function setCemetery(?Cemetery $cemetery): self
+    {
+        $this->cemetery = $cemetery;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Burial[]
+     */
+    public function getBurials(): Collection
+    {
+        return $this->burials;
+    }
+
+    public function addBurial(Burial $burial): self
+    {
+        if (!$this->burials->contains($burial)) {
+            $this->burials[] = $burial;
+            $burial->setGrave($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBurial(Burial $burial): self
+    {
+        if ($this->burials->contains($burial)) {
+            $this->burials->removeElement($burial);
+            // set the owning side to null (unless already changed)
+            if ($burial->getGrave() === $this) {
+                $burial->setGrave(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Cover[]
+     */
+    public function getCovers(): Collection
+    {
+        return $this->covers;
+    }
+
+    public function addCover(Cover $cover): self
+    {
+        if (!$this->covers->contains($cover)) {
+            $this->covers[] = $cover;
+            $cover->addGrave($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCover(Cover $cover): self
+    {
+        if ($this->covers->contains($cover)) {
+            $this->covers->removeElement($cover);
+            $cover->removeGrave($this);
+        }
+
+        return $this;
+    }
 
 
 }

@@ -19,9 +19,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
- * An perons buried in a grave
+ * An GRC.
  *
  * @ApiResource(
  *     attributes={"pagination_items_per_page"=30},
@@ -32,7 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "put",
  *          "delete",
  *          "get_change_logs"={
- *              "path"="/burials/{id}/change_log",
+ *              "path"="/cemeteries/{id}/change_log",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Changelogs",
@@ -40,7 +39,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *              }
  *          },
  *          "get_audit_trail"={
- *              "path"="/burials/{id}/audit_trail",
+ *              "path"="/cemeteries/{id}/audit_trail",
  *              "method"="get",
  *              "swagger_context" = {
  *                  "summary"="Audittrail",
@@ -49,7 +48,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          }
  *     }
  * )
- * @ORM\Entity(repositoryClass="App\Repository\BurialRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CemeteryRepository")
  * @Gedmo\Loggable(logEntryClass="Conduction\CommonGroundBundle\Entity\ChangeLog")
  *
  * @ApiFilter(BooleanFilter::class)
@@ -57,7 +56,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiFilter(DateFilter::class, strategy=DateFilter::EXCLUDE_NULL)
  * @ApiFilter(SearchFilter::class)
  */
-class Burial
+class Cemetery
 {
     /**
      * @var UuidInterface The UUID identifier of this resource
@@ -74,46 +73,39 @@ class Burial
     private $id;
 
     /**
-     * @var Grave The grave in  which this burial has taken place
+     * @var string A wrc organization that manages this grave
      *
-     * @Groups({"read", "write"})
-     * @MaxDepth(1)
-     * @ORM\ManyToOne(targetEntity="App\Entity\Grave", inversedBy="burials")
-     */
-    private $grave;
-
-    /**
-     * @var string The deceased resting in this Grave
-     *
-     * @example url/deceased1
-     * @Assert\Length(
-     *     max = 255
-     * )
-     * @Groups({"read","write"})
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $deceased;
-
-    /**
-     * @var integer The layer on whish this burial is located in a grave
-     *
-     * @example 3
+     * @example https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f
      *
      * @Gedmo\Versioned
      * @Assert\NotNull
      * @Assert\Url
      * @Groups({"read", "write"})
-     * @ORM\Column(type="integer", length=3)
+     * @ORM\Column(type="string", length=255)
      */
-    private $layer;
+    private $organization;
 
     /**
-     * @var Datetime The moment this burial took place
+     * @var string A place for this cemetery
      *
-     * @Groups({"read"})
-     * @ORM\Column(type="datetime", nullable=true)
+     * @example https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f
+     *
+     * @Gedmo\Versioned
+     * @Assert\NotNull
+     * @Assert\Url
+     * @Groups({"read", "write"})
+     * @ORM\Column(type="string", length=255)
      */
-    private $dateBuried;
+    private $place;
+
+    /**
+     * @var ArrayCollection The graves on this cemetery
+     *
+     * @Groups({"read", "write"})
+     * @MaxDepth(1)
+     * @ORM\OneToMany(targetEntity="App\Entity\Burial", mappedBy="cemetery")
+     */
+    private $graves;
 
     /**
      * @var Datetime The moment this entity was created
@@ -133,43 +125,36 @@ class Burial
      */
     private $dateModified;
 
+    public function __construct()
+    {
+        $this->graves = new ArrayCollection();
+    }
+
     public function getId()
     {
         return $this->id;
     }
 
-    public function getDeceased(): ?string
+    public function getOrganization(): ?string
     {
-        return $this->deceased;
+        return $this->organization;
     }
 
-    public function setDeceased(?string $deceased): self
+    public function setOrganization(string $organization): self
     {
-        $this->deceased = $deceased;
+        $this->organization = $organization;
 
         return $this;
     }
 
-    public function getLayer(): ?int
+    public function getPlace(): ?string
     {
-        return $this->layer;
+        return $this->place;
     }
 
-    public function setLayer(int $layer): self
+    public function setPlace(string $place): self
     {
-        $this->layer = $layer;
-
-        return $this;
-    }
-
-    public function getDateBuried(): ?\DateTimeInterface
-    {
-        return $this->dateBuried;
-    }
-
-    public function setDateBuried(?\DateTimeInterface $dateBuried): self
-    {
-        $this->dateBuried = $dateBuried;
+        $this->place = $place;
 
         return $this;
     }
@@ -198,14 +183,33 @@ class Burial
         return $this;
     }
 
-    public function getGrave(): ?Grave
+    /**
+     * @return Collection|Burial[]
+     */
+    public function getGraves(): Collection
     {
-        return $this->grave;
+        return $this->graves;
     }
 
-    public function setGrave(?Grave $grave): self
+    public function addGrave(Burial $grave): self
     {
-        $this->grave = $grave;
+        if (!$this->graves->contains($grave)) {
+            $this->graves[] = $grave;
+            $grave->setCemetery($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGrave(Burial $grave): self
+    {
+        if ($this->graves->contains($grave)) {
+            $this->graves->removeElement($grave);
+            // set the owning side to null (unless already changed)
+            if ($grave->getCemetery() === $this) {
+                $grave->setCemetery(null);
+            }
+        }
 
         return $this;
     }
