@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * An GRC.
+ * An cemetery or place where people can get buried. A cemetery is a collection of graves and matches this collection of graves to an organization and place. Therby using place (from the location component) for als geoprahical quastions and organisation (from the wrc) for al organiztationl questions (including user's, user groups, notification and available products)
  *
  * @ApiResource(
  *     attributes={"pagination_items_per_page"=30},
@@ -73,7 +73,7 @@ class Cemetery
     private $id;
 
     /**
-     * @var string A wrc organization that manages this grave
+     * @var string A wrc organization that manages this cemetery
      *
      * @example https://wrc.zaakonline.nl/organisations/16353702-4614-42ff-92af-7dd11c8eef9f
      *
