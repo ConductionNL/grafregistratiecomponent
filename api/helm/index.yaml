@@ -2,15 +2,49 @@ apiVersion: v1
 entries:
   grc:
   - apiVersion: v1
-    appVersion: V.0.6.1
-    created: "2020-07-16T11:07:56.6909043Z"
-    description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
-      interface beschikbaar.&#039;'
-    digest: d4b42c789054080b0192541fb5972f2e4937737c410be26ebfc908f62d6ff289
-    home: grc.zuid-drecht.nl
-    icon: grc.zuid-drecht.nl
+    appVersion: V1.0
+    created: "2021-01-14T10:22:47.5301985Z"
+    description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
+      beschikbaar.
+    digest: 974147b079b8eb3be3633554f977daf18769a1d789815389cfd6e3c327a8cc27
+    home: pc.zaakonline.nl
+    icon: pc.zaakonline.nl
     name: grc
     urls:
     - grc-0.1.0.tgz
     version: 0.1.0
-generated: "2020-07-16T11:07:56.6818118Z"
+  postgresql:
+  - annotations:
+      category: Database
+    apiVersion: v2
+    appVersion: 11.10.0
+    created: "2021-01-14T10:22:47.544232Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      version: 1.x.x
+    description: Chart for PostgreSQL, an object-relational database management system
+      (ORDBMS) with an emphasis on extensibility and on standards-compliance.
+    digest: eebe8f456cf98d5927a35666d1d899174dc4d3e09f26788033f761527bc90749
+    home: https://github.com/bitnami/charts/tree/master/bitnami/postgresql
+    icon: https://bitnami.com/assets/stacks/postgresql/img/postgresql-stack-110x117.png
+    keywords:
+    - postgresql
+    - postgres
+    - database
+    - sql
+    - replication
+    - cluster
+    maintainers:
+    - email: containers@bitnami.com
+      name: Bitnami
+    - email: cedric@desaintmartin.fr
+      name: desaintmartin
+    name: postgresql
+    sources:
+    - https://github.com/bitnami/bitnami-docker-postgresql
+    - https://www.postgresql.org/
+    urls:
+    - charts/postgresql-10.1.1.tgz
+    version: 10.1.1
+generated: "2021-01-14T10:22:47.5120111Z"

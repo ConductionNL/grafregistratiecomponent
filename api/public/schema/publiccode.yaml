@@ -5,8 +5,8 @@ applicationSuite: commonground
 url: "https://github.com/ConductionNL/proto-component"
 landingURL: "pc.zaakonline.nl" 
 isBasedOn: "https://github.com/ConductionNL/Proto-component-commonground.git" 
-softwareVersion: "V.0.6.1"
-releaseDate: "2020-16-07"
+softwareVersion: "V1.0"
+releaseDate: "2021-14-01"
 logo: grc.zuid-drecht.nl 
 monochromeLogo: img/logo-mono.svg
 
