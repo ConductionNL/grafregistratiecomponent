@@ -3,13 +3,26 @@ entries:
   grc:
   - apiVersion: v1
     appVersion: V1.0
-    created: "2021-01-14T10:36:27.0933913Z"
-    description: '&#039;Naast deze JSON rest API is er ook een [graphql](/graphql)
-      interface beschikbaar.&#039;'
-    digest: 2011b23cd05bcf7a2db1070189b4abbb963fda71772fdf76260512be25553bf2
+    created: "2021-02-17T22:45:35.3135431Z"
+    description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
+      beschikbaar.
+    digest: e700045bb27df75fd641bf35fa84b7f830c8b89690f686e4eca84c9852695aac
     home: grc.zuid-drecht.nl
     icon: grc.zuid-drecht.nl
+    keywords:
+    - commonground
+    - haven
+    - nlx
+    - component
+    maintainers:
+    - email: ruben@conduction.nl
+      name: Ruben van der Linde
+    - email: info@conduction.nl
+      name: Conduction
     name: grc
+    sources:
+    - https://commonground.conduction.nl/
+    - https://www.commonground.nl/
     urls:
     - grc-0.1.0.tgz
     version: 0.1.0
@@ -18,7 +31,7 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 11.10.0
-    created: "2021-01-14T10:36:27.1047606Z"
+    created: "2021-02-17T22:45:35.3299376Z"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -47,4 +60,4 @@ entries:
     urls:
     - charts/postgresql-10.1.1.tgz
     version: 10.1.1
-generated: "2021-01-14T10:36:27.0822851Z"
+generated: "2021-02-17T22:45:35.2941146Z"
