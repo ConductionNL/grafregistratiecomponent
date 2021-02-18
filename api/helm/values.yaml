@@ -4,11 +4,11 @@
 
 settings:
   registryBase: ghcr.io/conductionnl
-  projectName: proto-component
-  name: proto-component
+  projectName: grafregistratiecomponent
+  name: grafregistratiecomponent
   version: V1.0
   description: 'Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.'
-  repro: https://github.com/ConductionNL/proto-component
+  repro: https://github.com/ConductionNL/grafregistratiecomponent
   demo: pc.zaakonline.nl
   domain: zuid-drecht.nl
   subdomain: grc
@@ -41,7 +41,7 @@ security:
 
 
 php:
-  repository: docker.io/conduction/protocomponent-php
+  repository: docker.io/conduction/grafregistratiecomponent-php
   tag: latest
   mercure:
     jwtSecret: ""
@@ -50,7 +50,7 @@ php:
   replicaCount: 2
 
 nginx:
-  repository: docker.io/conduction/protocomponent-nginx
+  repository: docker.io/conduction/grafregistratiecomponent-nginx
   tag: latest
   pullPolicy: Always
   replicaCount: 2
@@ -58,7 +58,7 @@ nginx:
 varnish:
   enabled: true
   #url: https://example.com
-  repository: docker.io/conduction/protocomponent-varnish
+  repository: docker.io/conduction/grafregistratiecomponent-varnish
   tag: latest
   pullPolicy: Always
   replicaCount: 1
