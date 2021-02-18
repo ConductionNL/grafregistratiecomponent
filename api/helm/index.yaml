@@ -1,14 +1,14 @@
 apiVersion: v1
 entries:
-  grc:
+  grafregistratiecomponent:
   - apiVersion: v1
     appVersion: V1.0
-    created: "2021-02-17T22:45:35.3135431Z"
+    created: "2021-02-18T21:12:24.9473138Z"
     description: Naast deze JSON rest API is er ook een [graphql](/graphql) interface
       beschikbaar.
-    digest: e700045bb27df75fd641bf35fa84b7f830c8b89690f686e4eca84c9852695aac
-    home: grc.zuid-drecht.nl
-    icon: grc.zuid-drecht.nl
+    digest: db478c6418275d6da54086dd977b34c62b023e5279ecaff17906979c3891a6ba
+    home: https://www.conduction.nl
+    icon: https://conductionnl.github.io/images/conduction_avatar_blue_on_transparant.svg
     keywords:
     - commonground
     - haven
@@ -19,19 +19,19 @@ entries:
       name: Ruben van der Linde
     - email: info@conduction.nl
       name: Conduction
-    name: grc
+    name: grafregistratiecomponent
     sources:
     - https://commonground.conduction.nl/
     - https://www.commonground.nl/
     urls:
-    - grc-0.1.0.tgz
+    - grafregistratiecomponent-0.1.0.tgz
     version: 0.1.0
   postgresql:
   - annotations:
       category: Database
     apiVersion: v2
     appVersion: 11.10.0
-    created: "2021-02-17T22:45:35.3299376Z"
+    created: "2021-02-18T21:12:24.9629754Z"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -60,4 +60,4 @@ entries:
     urls:
     - charts/postgresql-10.1.1.tgz
     version: 10.1.1
-generated: "2021-02-17T22:45:35.2941146Z"
+generated: "2021-02-18T21:12:24.9374031Z"
