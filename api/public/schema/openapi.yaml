@@ -5,12 +5,12 @@ info:
   description: |
     API Details
     - Component: 
-    - Reference: proto-component
+    - Reference: grafregistratiecomponent
     - Enviroment: dev
     - Version: V1.0
-    - Repository: [online](https://github.com/ConductionNL/proto-component) / [zip](https://github.com/ConductionNL/proto-component/archive/master.zip)
+    - Repository: [online](https://github.com/ConductionNL/grafregistratiecomponent) / [zip](https://github.com/ConductionNL/grafregistratiecomponent/archive/master.zip)
     - Docker Image: [online]() 
-    - Datamodel: [postman](schema/proto-component.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
+    - Datamodel: [postman](schema/grafregistratiecomponent.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
     
     Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.         
     
@@ -6641,12 +6641,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-02-17 22:46:41'
+        example: '2021-02-18 21:11:43'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-02-17 22:46:41'
+        example: '2021-02-18 21:11:43'
     required: []
   AuditTrail-write:
     properties:
@@ -6694,12 +6694,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-02-17 22:46:41'
+        example: '2021-02-18 21:11:43'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-02-17 22:46:41'
+        example: '2021-02-18 21:11:43'
     required: []
   ChangeLog-write:
     properties:
@@ -6765,7 +6765,7 @@ host: irc.zaakonline.nl
 servers:
   -
     name: zuid-drecht.nl
-    url: proto-component.dev.zuid-drecht.nl
+    url: grafregistratiecomponent.dev.zuid-drecht.nl
 externalDocs:
   -
     description: 'OAS Documentatie'

@@ -1,4 +1,4 @@
-# grc
+# grafregistratiecomponent
 
 Description
 ----
