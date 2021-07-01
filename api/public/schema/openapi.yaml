@@ -11,9 +11,8 @@ info:
     - Repository: [online](https://github.com/ConductionNL/grafregistratiecomponent) / [zip](https://github.com/ConductionNL/grafregistratiecomponent/archive/master.zip)
     - Docker Image: [online]() 
     - Datamodel: [postman](schema/grafregistratiecomponent.postman_collection.json) / [oas](schema/openapi.yaml) / [pdf](schema/datamodel.pdf) / [modelio (zip)](schema/Datamodel_Modelio.zip) 
-    
+
     Naast deze JSON rest API is er ook een [graphql](/graphql) interface beschikbaar.         
-    
 paths:
   /audit_trails:
     get:
@@ -6259,6 +6258,49 @@ components:
           items:
             $ref: '#/components/schemas/Grave:jsonld-write'
 definitions:
+  GraveCover-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this object'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      dateCreated:
+        description: 'The moment this entity was created'
+        type: \Datetime
+      dateModified:
+        description: 'The moment this entity last Modified'
+        type: \Datetime
+      reference:
+        description: 'The reference of this GraveCover'
+        type: string
+        example: 'Enkel monument'
+        maxLength: 255
+      description:
+        description: 'The description of this GraveCover'
+        type: string
+        example: 'gemaakt van marmer'
+        maxLength: 255
+      graves:
+        description: 'The Graves that are part of this GraveCover'
+        type: \ArrayCollection
+    required: []
+  GraveCover-write:
+    properties:
+      reference:
+        description: 'The reference of this GraveCover'
+        type: string
+        example: 'Enkel monument'
+        maxLength: 255
+      description:
+        description: 'The description of this GraveCover'
+        type: string
+        example: 'gemaakt van marmer'
+        maxLength: 255
+      graves:
+        description: 'The Graves that are part of this GraveCover'
+        type: \ArrayCollection
+    required: []
   Cemetery-read:
     properties:
       id:
@@ -6451,49 +6493,6 @@ definitions:
         description: 'The Cemetery that is part of this Grave'
         type: \Cemetery
     required: []
-  GraveCover-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this object'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      dateCreated:
-        description: 'The moment this entity was created'
-        type: \Datetime
-      dateModified:
-        description: 'The moment this entity last Modified'
-        type: \Datetime
-      reference:
-        description: 'The reference of this GraveCover'
-        type: string
-        example: 'Enkel monument'
-        maxLength: 255
-      description:
-        description: 'The description of this GraveCover'
-        type: string
-        example: 'gemaakt van marmer'
-        maxLength: 255
-      graves:
-        description: 'The Graves that are part of this GraveCover'
-        type: \ArrayCollection
-    required: []
-  GraveCover-write:
-    properties:
-      reference:
-        description: 'The reference of this GraveCover'
-        type: string
-        example: 'Enkel monument'
-        maxLength: 255
-      description:
-        description: 'The description of this GraveCover'
-        type: string
-        example: 'gemaakt van marmer'
-        maxLength: 255
-      graves:
-        description: 'The Graves that are part of this GraveCover'
-        type: \ArrayCollection
-    required: []
   Stakeholder-read:
     properties:
       id:
@@ -6536,6 +6535,59 @@ definitions:
       graves:
         description: 'The graves that are part of this Stakeholder'
         type: \ArrayCollection
+    required: []
+  ChangeLog-read:
+    properties:
+      id:
+        description: 'The UUID identifier of this object'
+        type: string
+        example: e2984465-190a-4562-829e-a8cca81aa35d
+        format: uuid
+      note:
+        description: 'A note conserning this log lin'
+        type: string
+        example: 'This log line is suspicius'
+        maxLength: 2555
+      action:
+        description: ''
+        type: string
+      objectId:
+        description: ''
+        type: string
+      objectClass:
+        description: ''
+        type: string
+      version:
+        description: ''
+        type: int
+      data:
+        description: ''
+        type: array
+      username:
+        description: ''
+        type: string
+      session:
+        description: 'The moment this request was created'
+        type: string
+        maxLength: 255
+      dateCreated:
+        description: 'The moment this request was created'
+        type: string
+        format: date-time
+        example: '2021-07-01 10:15:56'
+      dateModified:
+        description: 'The moment this request last Modified'
+        type: string
+        format: date-time
+        example: '2021-07-01 10:15:56'
+    required: []
+  ChangeLog-write:
+    properties:
+      note:
+        description: 'A note conserning this log lin'
+        type: string
+        example: 'This log line is suspicius'
+        maxLength: 2555
     required: []
   AuditTrail-read:
     properties:
@@ -6641,12 +6693,12 @@ definitions:
         description: 'The moment this request was created'
         type: string
         format: date-time
-        example: '2021-02-19 14:43:58'
+        example: '2021-07-01 10:15:56'
       dateModified:
         description: 'The moment this request last Modified'
         type: string
         format: date-time
-        example: '2021-02-19 14:43:58'
+        example: '2021-07-01 10:15:56'
     required: []
   AuditTrail-write:
     properties:
@@ -6656,95 +6708,42 @@ definitions:
         example: 'This log line looks suspicius'
         maxLength: 2555
     required: []
-  ChangeLog-read:
-    properties:
-      id:
-        description: 'The UUID identifier of this object'
-        type: string
-        example: e2984465-190a-4562-829e-a8cca81aa35d
-        format: uuid
-      note:
-        description: 'A note conserning this log lin'
-        type: string
-        example: 'This log line is suspicius'
-        maxLength: 2555
-      action:
-        description: ''
-        type: string
-      objectId:
-        description: ''
-        type: string
-      objectClass:
-        description: ''
-        type: string
-      version:
-        description: ''
-        type: int
-      data:
-        description: ''
-        type: array
-      username:
-        description: ''
-        type: string
-      session:
-        description: 'The moment this request was created'
-        type: string
-        maxLength: 255
-      dateCreated:
-        description: 'The moment this request was created'
-        type: string
-        format: date-time
-        example: '2021-02-19 14:43:58'
-      dateModified:
-        description: 'The moment this request last Modified'
-        type: string
-        format: date-time
-        example: '2021-02-19 14:43:58'
-    required: []
-  ChangeLog-write:
-    properties:
-      note:
-        description: 'A note conserning this log lin'
-        type: string
-        example: 'This log line is suspicius'
-        maxLength: 2555
-    required: []
 tags:
   -
+    name: GraveCover
+    description: |-
+      An entity representing an GraveCover.
+
+      This entity represents an GraveCover for Graves
+  -
     name: Cemetery
-    description: |
+    description: |-
       An entity representing an Cemetery.
-      
+
       This entity represents an Cemetery for Cemeteries
   -
     name: Grave
-    description: |
+    description: |-
       An entity representing an Grave.
-      
+
       This entity represents an Grave for Graves
   -
-    name: GraveCover
-    description: |
-      An entity representing an GraveCover.
-      
-      This entity represents an GraveCover for Graves
-  -
     name: Stakeholder
-    description: |
+    description: |-
       An entity representing an Stakeholder.
-      
+
       This entity represents an Stakeholder for Stakeholders
   -
-    name: AuditTrail
-    description: |
+    name: ChangeLog
+    description: |-
       An resource representing a log line.
-      
+
       This entity represents a product that can be ordered via the OrderRegistratieComponent.
   -
-    name: ChangeLog
-    description: |
+    name: AuditTrail
+    description: |-
       An resource representing a log line.
-      
+
       This entity represents a product that can be ordered via the OrderRegistratieComponent.
 securityDefinitions:
   JWT-Oauth:
@@ -6752,15 +6751,15 @@ securityDefinitions:
     authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
     flow: implicit
     scopes:
-      read: 'read right to the ChangeLog resource'
-      write: 'write right to the ChangeLog resource'
+      read: 'read right to the AuditTrail resource'
+      write: 'write right to the AuditTrail resource'
   JWT-Token:
     type: apiKey
     in: header
     name: Authorization
     scopes:
-      read: 'read right to the ChangeLog resource'
-      write: 'write right to the ChangeLog resource'
+      read: 'read right to the AuditTrail resource'
+      write: 'write right to the AuditTrail resource'
 host: irc.zaakonline.nl
 servers:
   -
